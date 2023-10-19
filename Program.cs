@@ -1,3 +1,5 @@
+using O_NeilloGame;
+
 namespace O_neilloGame
 {
     internal static class Program
@@ -11,7 +13,7 @@ namespace O_neilloGame
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            Application.Run(new Main());
         }
     }
 }
