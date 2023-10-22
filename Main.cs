@@ -21,8 +21,8 @@ namespace O_NeilloGame
         }
         public static void LoadGame(FlowLayoutPanel flp) 
         {
-            ctrGameInfo Player1Info = new ctrGameInfo();
-            ctrGameInfo Player2Info = new ctrGameInfo();
+            ctrGameInfo Player1Info = new ctrGameInfo(1,"Player1",true);
+            ctrGameInfo Player2Info = new ctrGameInfo(2,"Player2",false);
             flp.Controls.Add(Player1Info);
             flp.Controls.Add(Player2Info);
         }
