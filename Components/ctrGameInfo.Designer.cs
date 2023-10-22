@@ -28,71 +28,80 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtPlayerName = new System.Windows.Forms.TextBox();
-            this.lblPlayerTokenNum = new System.Windows.Forms.Label();
-            this.imgPlayerTokenColour = new System.Windows.Forms.PictureBox();
-            this.lblPlayerTurn = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.imgPlayerTokenColour)).BeginInit();
-            this.SuspendLayout();
+            txtPlayerName = new TextBox();
+            lblPlayerTokenNum = new Label();
+            imgPlayerTokenColour = new PictureBox();
+            lblPlayerTurn = new Label();
+            ((System.ComponentModel.ISupportInitialize)imgPlayerTokenColour).BeginInit();
+            SuspendLayout();
             // 
             // txtPlayerName
             // 
-            this.txtPlayerName.Location = new System.Drawing.Point(5, 22);
-            this.txtPlayerName.Name = "txtPlayerName";
-            this.txtPlayerName.Size = new System.Drawing.Size(196, 20);
-            this.txtPlayerName.TabIndex = 0;
+            txtPlayerName.BackColor = Color.White;
+            txtPlayerName.ForeColor = Color.DarkOrange;
+            txtPlayerName.Location = new Point(7, 34);
+            txtPlayerName.Margin = new Padding(4, 5, 4, 5);
+            txtPlayerName.Name = "txtPlayerName";
+            txtPlayerName.Size = new Size(260, 27);
+            txtPlayerName.TabIndex = 0;
             // 
             // lblPlayerTokenNum
             // 
-            this.lblPlayerTokenNum.AutoSize = true;
-            this.lblPlayerTokenNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
-            this.lblPlayerTokenNum.Location = new System.Drawing.Point(15, 63);
-            this.lblPlayerTokenNum.Name = "lblPlayerTokenNum";
-            this.lblPlayerTokenNum.Size = new System.Drawing.Size(29, 31);
-            this.lblPlayerTokenNum.TabIndex = 1;
-            this.lblPlayerTokenNum.Text = "0";
+            lblPlayerTokenNum.AutoSize = true;
+            lblPlayerTokenNum.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Regular, GraphicsUnit.Point);
+            lblPlayerTokenNum.ForeColor = Color.DarkOrange;
+            lblPlayerTokenNum.Location = new Point(20, 97);
+            lblPlayerTokenNum.Margin = new Padding(4, 0, 4, 0);
+            lblPlayerTokenNum.Name = "lblPlayerTokenNum";
+            lblPlayerTokenNum.Size = new Size(36, 39);
+            lblPlayerTokenNum.TabIndex = 1;
+            lblPlayerTokenNum.Text = "0";
             // 
             // imgPlayerTokenColour
             // 
-            this.imgPlayerTokenColour.BackColor = System.Drawing.SystemColors.HotTrack;
-            this.imgPlayerTokenColour.Location = new System.Drawing.Point(60, 45);
-            this.imgPlayerTokenColour.Name = "imgPlayerTokenColour";
-            this.imgPlayerTokenColour.Size = new System.Drawing.Size(141, 49);
-            this.imgPlayerTokenColour.TabIndex = 2;
-            this.imgPlayerTokenColour.TabStop = false;
+            imgPlayerTokenColour.BackColor = SystemColors.HotTrack;
+            imgPlayerTokenColour.Location = new Point(80, 69);
+            imgPlayerTokenColour.Margin = new Padding(4, 5, 4, 5);
+            imgPlayerTokenColour.Name = "imgPlayerTokenColour";
+            imgPlayerTokenColour.Size = new Size(188, 75);
+            imgPlayerTokenColour.SizeMode = PictureBoxSizeMode.StretchImage;
+            imgPlayerTokenColour.TabIndex = 2;
+            imgPlayerTokenColour.TabStop = false;
             // 
             // lblPlayerTurn
             // 
-            this.lblPlayerTurn.AutoSize = true;
-            this.lblPlayerTurn.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold);
-            this.lblPlayerTurn.ForeColor = System.Drawing.Color.Chartreuse;
-            this.lblPlayerTurn.Location = new System.Drawing.Point(56, 106);
-            this.lblPlayerTurn.Name = "lblPlayerTurn";
-            this.lblPlayerTurn.Size = new System.Drawing.Size(104, 24);
-            this.lblPlayerTurn.TabIndex = 3;
-            this.lblPlayerTurn.Text = "Your Turn";
+            lblPlayerTurn.AutoSize = true;
+            lblPlayerTurn.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            lblPlayerTurn.ForeColor = Color.Chartreuse;
+            lblPlayerTurn.Location = new Point(75, 163);
+            lblPlayerTurn.Margin = new Padding(4, 0, 4, 0);
+            lblPlayerTurn.Name = "lblPlayerTurn";
+            lblPlayerTurn.Size = new Size(129, 29);
+            lblPlayerTurn.TabIndex = 3;
+            lblPlayerTurn.Text = "Your Turn";
             // 
             // ctrGameInfo
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.lblPlayerTurn);
-            this.Controls.Add(this.imgPlayerTokenColour);
-            this.Controls.Add(this.lblPlayerTokenNum);
-            this.Controls.Add(this.txtPlayerName);
-            this.Name = "ctrGameInfo";
-            this.Size = new System.Drawing.Size(237, 136);
-            ((System.ComponentModel.ISupportInitialize)(this.imgPlayerTokenColour)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.Transparent;
+            Controls.Add(lblPlayerTurn);
+            Controls.Add(imgPlayerTokenColour);
+            Controls.Add(lblPlayerTokenNum);
+            Controls.Add(txtPlayerName);
+            Margin = new Padding(4, 5, 4, 5);
+            Name = "ctrGameInfo";
+            Size = new Size(276, 209);
+            ((System.ComponentModel.ISupportInitialize)imgPlayerTokenColour).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtPlayerName;
-        private System.Windows.Forms.Label lblPlayerTokenNum;
-        private System.Windows.Forms.PictureBox imgPlayerTokenColour;
-        private System.Windows.Forms.Label lblPlayerTurn;
+        private TextBox txtPlayerName;
+        private Label lblPlayerTokenNum;
+        private PictureBox imgPlayerTokenColour;
+        private Label lblPlayerTurn;
     }
 }
