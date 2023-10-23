@@ -88,7 +88,8 @@
             // tlpGameBoard
             // 
             tlpGameBoard.BackColor = Color.Black;
-            tlpGameBoard.ColumnCount = 2;
+            tlpGameBoard.ColumnCount = 8;
+            tlpGameBoard.RowCount = 8;
             tlpGameBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
             tlpGameBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
             tlpGameBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
@@ -107,9 +108,6 @@
             tlpGameBoard.RowStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
             tlpGameBoard.Location = new Point(42, 54);
             tlpGameBoard.Name = "tlpGameBoard";
-            tlpGameBoard.RowCount = 2;
-            tlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tlpGameBoard.Size = new Size(900, 600);
             tlpGameBoard.TabIndex = 3;
             // 
