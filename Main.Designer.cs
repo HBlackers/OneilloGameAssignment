@@ -33,7 +33,7 @@
             btnGame = new ToolStripButton();
             btnSettings = new ToolStripButton();
             btnHelp = new ToolStripButton();
-            flp_GameInfo = new FlowLayoutPanel();
+            flpGameInfo = new FlowLayoutPanel();
             tlpGameBoard = new TableLayoutPanel();
             Menu.SuspendLayout();
             SuspendLayout();
@@ -76,20 +76,19 @@
             btnHelp.Size = new Size(45, 24);
             btnHelp.Text = "Help";
             // 
-            // flp_GameInfo
+            // flpGameInfo
             // 
-            flp_GameInfo.BackColor = Color.Chocolate;
-            flp_GameInfo.Location = new Point(191, 712);
-            flp_GameInfo.Margin = new Padding(4, 5, 4, 5);
-            flp_GameInfo.Name = "flp_GameInfo";
-            flp_GameInfo.Size = new Size(600, 200);
-            flp_GameInfo.TabIndex = 2;
+            flpGameInfo.BackColor = Color.Chocolate;
+            flpGameInfo.Location = new Point(191, 712);
+            flpGameInfo.Margin = new Padding(4, 5, 4, 5);
+            flpGameInfo.Name = "flpGameInfo";
+            flpGameInfo.Size = new Size(600, 200);
+            flpGameInfo.TabIndex = 2;
             // 
             // tlpGameBoard
             // 
             tlpGameBoard.BackColor = Color.Black;
             tlpGameBoard.ColumnCount = 8;
-            tlpGameBoard.RowCount = 8;
             tlpGameBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
             tlpGameBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
             tlpGameBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
@@ -98,17 +97,18 @@
             tlpGameBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
             tlpGameBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
             tlpGameBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.RowStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.RowStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.RowStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.RowStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.RowStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.RowStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.RowStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.RowStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.Location = new Point(42, 54);
+            tlpGameBoard.Location = new Point(42, 123);
             tlpGameBoard.Name = "tlpGameBoard";
-            tlpGameBoard.Size = new Size(900, 600);
+            tlpGameBoard.RowCount = 8;
+            tlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, 12.5F));
+            tlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, 12.5F));
+            tlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, 12.5F));
+            tlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, 12.5F));
+            tlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, 12.5F));
+            tlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, 12.5F));
+            tlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, 12.5F));
+            tlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, 12.5F));
+            tlpGameBoard.Size = new Size(900, 500);
             tlpGameBoard.TabIndex = 3;
             // 
             // Main
@@ -118,7 +118,7 @@
             BackColor = Color.White;
             ClientSize = new Size(982, 953);
             Controls.Add(tlpGameBoard);
-            Controls.Add(flp_GameInfo);
+            Controls.Add(flpGameInfo);
             Controls.Add(Menu);
             ForeColor = SystemColors.ControlLightLight;
             Margin = new Padding(4, 5, 4, 5);
@@ -136,7 +136,7 @@
         private ToolStripButton btnGame;
         private ToolStripButton btnSettings;
         private ToolStripButton btnHelp;
-        private FlowLayoutPanel flp_GameInfo;
+        private FlowLayoutPanel flpGameInfo;
         private TableLayoutPanel tlpGameBoard;
     }
 }
