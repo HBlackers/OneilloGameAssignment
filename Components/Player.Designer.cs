@@ -1,6 +1,6 @@
 ﻿namespace O_NeilloGame.Components
 {
-    partial class ctrGameInfo
+    partial class Player
     {
         /// <summary> 
         /// Required designer variable.

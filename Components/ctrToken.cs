@@ -1,65 +1,75 @@
-﻿using O_NeilloGame.Components;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using O_neilloGame.Properties;
+using O_neilloGame.Services;
+using O_NeilloGame.Components;
 
 namespace O_neilloGame.Components
 {
     public partial class ctrToken : UserControl
     {
-        private enum TokenTypes
+        #region Properties
+        /// <summary>
+        /// State of the token
+        /// </summary>
+        public TokenTypes TokenColour = TokenTypes.none;
+        /// <summary>
+        /// The two players
+        /// </summary>
+        public Player Player1;
+        public Player Player2;
+        /// <summary>
+        /// Tiles on intialisation are all set to illegal , this gets changed based on the legal moves function
+        /// </summary>
+        public bool Legal = false;
+        /// <summary>
+        /// coordinates of the tile on the gameboard array
+        /// </summary>
+        public int XCoord;
+        public int YCoord;
+        private readonly GameService _gameService;
+        #endregion
+        #region Constructor
+        /// <summary>
+        /// Both players and game service needs to be passed through to instantiate a token
+        /// </summary>
+        /// <param name="player1">Required</param>
+        /// <param name="player2"></param>
+        /// <param name="gameService"></param>
+        public ctrToken(Player player1, Player player2, GameService gameService)
         {
-            none,
-            black,
-            white
-        }
-        private TokenTypes _tokenColour = TokenTypes.none;
-        private ctrGameInfo _player1;
-        private ctrGameInfo _player2;
-
-        public ctrToken(ctrGameInfo Player1, ctrGameInfo Player2)
-        {
-            _player1 = Player1;
-            _player2 = Player2;
+            Player1 = player1;
+            Player2 = player2;
+            _gameService = gameService;
             InitializeComponent();
         }
-        private async void TileClicked(object sender, EventArgs e)
+        #endregion
+        #region Click Event Handler
+        /// <summary>
+        /// Tile click event handler that checks the tile clicked is a legal move.
+        ///If it is , it will update the tiles on the board and the next stage of the game
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TileClicked(object sender, EventArgs e)
         {
-            if (_tokenColour == TokenTypes.none)
+            // if the tile is a legal move
+            if (Legal)
             {
-                if (_player1._playerTurn)
+                //change the colour of the tile clicked
+                GameService.ChangeTokenDisplayColour(Player1.PlayerTurn ? Player1 : Player2, this);
+                //list of tokens that need to be changed
+                List<ctrToken> TokensToFlip = _gameService.FindFlippableTokens(this);
+                foreach (var Token in TokensToFlip)
                 {
-                    _tokenColour = TokenTypes.black;
+                    GameService.ChangeTokenDisplayColour(Player1.PlayerTurn ? Player1 : Player2, Token);
+
                 }
-                else if (_player2._playerTurn)
-                {
-                    _tokenColour = TokenTypes.white;
-                }
-                await ChangeTokenDisplayColour(_tokenColour);
-                _player1._playerTurn = !_player1._playerTurn;
-                _player2._playerTurn = !_player2._playerTurn;
+                //Update Players
+                Player1.UpdatePlayer();
+                Player2.UpdatePlayer();
+                //Update legal moves
+                _gameService.GetLegalMoves(Player1.PlayerTurn ? Player1 : Player2);
             }
         }
-        private async Task ChangeTokenDisplayColour(TokenTypes Colour)
-        {
-            switch (Colour)
-            {
-                case TokenTypes.black:
-                    imgTile.Image = Image.FromFile("FilePath");
-                    break;
-                case TokenTypes.white:
-                    imgTile.Image = Image.FromFile("FilePath");
-                    break;
-                default:
-                    break;
-            }
-        }
+        #endregion
     }
 }

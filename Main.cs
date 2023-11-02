@@ -1,38 +1,28 @@
-﻿using O_neilloGame.Components;
+﻿using O_neilloGame;
+using O_neilloGame.Services;
 using O_NeilloGame.Components;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace O_NeilloGame
 {
     public partial class Main : Form
     {
-        public Main()
+        private readonly GameService _gameService;
+
+        public Main(GameService gameService)
         {
             InitializeComponent();
-            LoadGame(flpGameInfo);
-
+            _gameService = gameService;
+            LoadGame();
+           
         }
-        public void LoadGame(FlowLayoutPanel flp)
-        {
-            ctrGameInfo Player1Info = new ctrGameInfo(1, "Player1", true);
-            ctrGameInfo Player2Info = new ctrGameInfo(2, "Player2", false);
-            flp.Controls.Add(Player1Info);
-            flp.Controls.Add(Player2Info);
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++) 
-                {
-                    tlpGameBoard.Controls.Add(new ctrToken(Player1Info,Player2Info) { },j,i);
-                }  
-            }
+        private void LoadGame()
+        {   
+            Player Player1Info = new Player(1,"Player1",true,TokenTypes.black,_gameService);
+            Player Player2Info = new Player(2,"Player2",false,TokenTypes.white,_gameService);
+            flpGameInfo.Controls.Add(Player1Info);
+            flpGameInfo.Controls.Add(Player2Info);
+            _gameService.GenerateBoard(tlpGameBoard,Player1Info, Player2Info);
+            _gameService.GetLegalMoves(Player1Info);
         }
     }
 }

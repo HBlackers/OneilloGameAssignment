@@ -1,4 +1,5 @@
-﻿namespace O_neilloGame.Components
+﻿
+namespace O_neilloGame.Components
 {
     partial class ctrToken
     {
@@ -36,9 +37,10 @@
             // 
             imgTile.BackColor = Color.DarkGreen;
             imgTile.BorderStyle = BorderStyle.FixedSingle;
+            imgTile.Enabled = false;
             imgTile.Location = new Point(3, 3);
             imgTile.Name = "imgTile";
-            imgTile.Size = new Size(120, 120);
+            imgTile.Size = new Size(100, 100);
             imgTile.TabIndex = 0;
             imgTile.TabStop = false;
             imgTile.Click += TileClicked;
@@ -49,13 +51,14 @@
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(imgTile);
             Name = "ctrToken";
-            Size = new Size(126, 125);
+            Size = new Size(106, 104);
+            Click += TileClicked;
             ((System.ComponentModel.ISupportInitialize)imgTile).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private PictureBox imgTile;
+        public PictureBox imgTile;
     }
 }
