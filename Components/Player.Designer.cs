@@ -44,6 +44,7 @@
             txtPlayerName.Name = "txtPlayerName";
             txtPlayerName.Size = new Size(260, 27);
             txtPlayerName.TabIndex = 0;
+            txtPlayerName.TextChanged += txtPlayerName_TextChanged;
             // 
             // lblPlayerTokenNum
             // 
@@ -80,7 +81,7 @@
             lblPlayerTurn.TabIndex = 3;
             lblPlayerTurn.Text = "Your Turn";
             // 
-            // ctrGameInfo
+            // Player
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -90,7 +91,7 @@
             Controls.Add(lblPlayerTokenNum);
             Controls.Add(txtPlayerName);
             Margin = new Padding(4, 5, 4, 5);
-            Name = "ctrGameInfo";
+            Name = "Player";
             Size = new Size(276, 209);
             ((System.ComponentModel.ISupportInitialize)imgPlayerTokenColour).EndInit();
             ResumeLayout(false);
@@ -102,6 +103,6 @@
         private TextBox txtPlayerName;
         private Label lblPlayerTokenNum;
         private PictureBox imgPlayerTokenColour;
-        private Label lblPlayerTurn;
+        public Label lblPlayerTurn;
     }
 }

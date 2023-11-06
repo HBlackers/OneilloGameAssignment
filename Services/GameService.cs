@@ -6,7 +6,7 @@ namespace O_neilloGame.Services
 {
     public class GameService
     {
-        #region properties
+        #region Properties
         /// <summary>
         /// 2D array storing instances that represent where tokens can be placed
         /// </summary>
@@ -15,7 +15,9 @@ namespace O_neilloGame.Services
         /// All the possible directions you can go according to the x axis
         /// </summary>
         private int[] _directionsx = { -1, -1, -1, 0, 1, 1, 1, 0 };
-        // All the possible directions you can go according to the y axis
+        /// <summary>
+        /// All possible directions according to y axis
+        /// </summary>
         private int[] _directionsY = { -1, 0, 1, 1, 1, 0, -1, -1 };
         #endregion
         #region GenerateGameBoard
@@ -156,7 +158,7 @@ namespace O_neilloGame.Services
                             break;
                         }
                         //adds enemy and empty board cells
-                        if (GameBoard[newX, newY].TokenColour != TokenClicked.TokenColour)
+                        if (GameBoard[newX, newY].TokenColour != TokenClicked.TokenColour && GameBoard[newX,newY].TokenColour != TokenTypes.none)
                         {
                             PossibleTokensToFlip.Add(GameBoard[newX, newY]);
                         }
@@ -193,6 +195,45 @@ namespace O_neilloGame.Services
             Token.TokenColour = Player.PlayerColour;
             Token.Legal = false;
             Token.imgTile.SizeMode = PictureBoxSizeMode.StretchImage;
+        }
+        #endregion
+        #region GameFinished
+        /// <summary>
+        /// Checks GameBoard if there are still legal moves on the board for the current player whos turn it is
+        /// </summary>
+        /// <returns>false if a legal move found, true if none are found</returns>
+        public bool CheckMovesForCurrentPlayer(Player Player) 
+        {
+            for (int row = 0; row < 8; row++)
+            {
+                for (int column = 0; column < 8; column++)
+                {
+                    if (GameBoard[row,column].Legal)
+                    {
+                        return true;
+                    }
+                }
+            }
+            MessageBox.Show($"{Player.PlayerName} has no legal moves");
+            return false;
+        }
+        /// <summary>
+        /// Checks which player has the most tokens and sets the winner
+        /// </summary>
+        /// <param name="Player1"></param>
+        /// <param name="Player2"></param>
+        public void GetWinner(Player Player1 , Player Player2) 
+        {
+            if (Player1.TokensOnBoards > Player2.TokensOnBoards)
+            {
+                Player1.Winner = true;
+                Player1.lblPlayerTurn.Text = "Winner!";
+            }
+            else 
+            {
+                Player2.Winner = true;
+                Player2.lblPlayerTurn.Text = "Winner!";
+            }
         }
         #endregion
     }

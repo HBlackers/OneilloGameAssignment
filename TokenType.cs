@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace O_neilloGame
 {
+    /// <summary>
+    /// Stores token states for gameboard
+    /// </summary>
     public enum TokenTypes
     {
         none,

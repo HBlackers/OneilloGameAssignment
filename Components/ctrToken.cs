@@ -54,20 +54,45 @@ namespace O_neilloGame.Components
             // if the tile is a legal move
             if (Legal)
             {
+                var CurrentPlayer = Player1.PlayerTurn ? Player1 : Player2;
+                var OppossitePlayer = Player1.PlayerTurn ? Player2 : Player1;
                 //change the colour of the tile clicked
-                GameService.ChangeTokenDisplayColour(Player1.PlayerTurn ? Player1 : Player2, this);
+                GameService.ChangeTokenDisplayColour(CurrentPlayer, this);
                 //list of tokens that need to be changed
                 List<ctrToken> TokensToFlip = _gameService.FindFlippableTokens(this);
                 foreach (var Token in TokensToFlip)
                 {
-                    GameService.ChangeTokenDisplayColour(Player1.PlayerTurn ? Player1 : Player2, Token);
+                    GameService.ChangeTokenDisplayColour(CurrentPlayer, Token);
 
                 }
                 //Update Players
-                Player1.UpdatePlayer();
-                Player2.UpdatePlayer();
+                CurrentPlayer.UpdatePlayer();
+                OppossitePlayer.UpdatePlayer();
                 //Update legal moves
-                _gameService.GetLegalMoves(Player1.PlayerTurn ? Player1 : Player2);
+                _gameService.GetLegalMoves(OppossitePlayer);
+                //if there are no legal moves for the current player
+                bool MovesforOppossition = _gameService.CheckMovesForCurrentPlayer(OppossitePlayer);
+                if (!MovesforOppossition)
+                {    
+                     //check for the other player
+                    _gameService.GetLegalMoves(CurrentPlayer);
+                    bool MovesforCurrent = _gameService.CheckMovesForCurrentPlayer(CurrentPlayer);
+                    if (!MovesforCurrent)
+                    {
+                        //if no legal moves exist for both player then the game is done
+                        _gameService.GetWinner(Player1, Player2);
+                    }
+                    else
+                    {
+                        CurrentPlayer.UpdatePlayer();
+                        OppossitePlayer.UpdatePlayer();
+                        CurrentPlayer.StateTurn();
+                    }
+                }
+                else
+                {
+                    OppossitePlayer.StateTurn();
+                }
             }
         }
         #endregion

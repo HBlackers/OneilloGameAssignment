@@ -31,7 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             Menu = new ToolStrip();
             btnGame = new ToolStripButton();
-            btnSettings = new ToolStripButton();
+            btnSettings = new ToolStripDropDownButton();
+            informationPanelToolStripMenuItem = new ToolStripMenuItem();
+            speakToolStripMenuItem = new ToolStripMenuItem();
             btnHelp = new ToolStripButton();
             flpGameInfo = new FlowLayoutPanel();
             tlpGameBoard = new TableLayoutPanel();
@@ -47,7 +49,7 @@
             Menu.Name = "Menu";
             Menu.Size = new Size(982, 27);
             Menu.TabIndex = 0;
-            Menu.Text = "toolStrip1";
+            Menu.Text = "tsMenu";
             // 
             // btnGame
             // 
@@ -61,11 +63,28 @@
             // btnSettings
             // 
             btnSettings.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            btnSettings.DropDownItems.AddRange(new ToolStripItem[] { informationPanelToolStripMenuItem, speakToolStripMenuItem });
             btnSettings.Image = (Image)resources.GetObject("btnSettings.Image");
             btnSettings.ImageTransparentColor = Color.Magenta;
             btnSettings.Name = "btnSettings";
-            btnSettings.Size = new Size(66, 24);
+            btnSettings.Size = new Size(76, 24);
             btnSettings.Text = "Settings";
+            // 
+            // informationPanelToolStripMenuItem
+            // 
+            informationPanelToolStripMenuItem.Checked = true;
+            informationPanelToolStripMenuItem.CheckState = CheckState.Checked;
+            informationPanelToolStripMenuItem.Name = "informationPanelToolStripMenuItem";
+            informationPanelToolStripMenuItem.Size = new Size(224, 26);
+            informationPanelToolStripMenuItem.Text = "Information Panel";
+            informationPanelToolStripMenuItem.Click += Information_Click;
+            // 
+            // speakToolStripMenuItem
+            // 
+            speakToolStripMenuItem.Name = "speakToolStripMenuItem";
+            speakToolStripMenuItem.Size = new Size(224, 26);
+            speakToolStripMenuItem.Text = "Speak";
+            speakToolStripMenuItem.Click += Speak_Click;
             // 
             // btnHelp
             // 
@@ -134,10 +153,12 @@
 
         private ToolStrip Menu;
         private ToolStripButton btnGame;
-        private ToolStripButton btnSettings;
         private ToolStripButton btnHelp;
         private FlowLayoutPanel flpGameInfo;
         private TableLayoutPanel tlpGameBoard;
+        private ToolStripDropDownButton btnSettings;
+        private ToolStripMenuItem informationPanelToolStripMenuItem;
+        private ToolStripMenuItem speakToolStripMenuItem;
     }
 }
 
