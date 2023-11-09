@@ -1,5 +1,4 @@
-﻿using O_neilloGame.Properties;
-using O_neilloGame.Services;
+﻿using O_neilloGame.Services;
 using O_NeilloGame.Components;
 
 namespace O_neilloGame.Components
@@ -51,6 +50,8 @@ namespace O_neilloGame.Components
         /// <param name="e"></param>
         private void TileClicked(object sender, EventArgs e)
         {
+            Player1.txtPlayerName.ReadOnly = true;
+            Player2.txtPlayerName.ReadOnly = true;
             // if the tile is a legal move
             if (Legal)
             {
@@ -73,8 +74,8 @@ namespace O_neilloGame.Components
                 //if there are no legal moves for the current player
                 bool MovesforOppossition = _gameService.CheckMovesForCurrentPlayer(OppossitePlayer);
                 if (!MovesforOppossition)
-                {    
-                     //check for the other player
+                {
+                    //check for the other player
                     _gameService.GetLegalMoves(CurrentPlayer);
                     bool MovesforCurrent = _gameService.CheckMovesForCurrentPlayer(CurrentPlayer);
                     if (!MovesforCurrent)

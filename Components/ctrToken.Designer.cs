@@ -40,7 +40,8 @@ namespace O_neilloGame.Components
             imgTile.Enabled = false;
             imgTile.Location = new Point(3, 3);
             imgTile.Name = "imgTile";
-            imgTile.Size = new Size(100, 100);
+            imgTile.Size = new Size(116, 96);
+            imgTile.SizeMode = PictureBoxSizeMode.CenterImage;
             imgTile.TabIndex = 0;
             imgTile.TabStop = false;
             imgTile.Click += TileClicked;
@@ -49,9 +50,10 @@ namespace O_neilloGame.Components
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
             Controls.Add(imgTile);
             Name = "ctrToken";
-            Size = new Size(106, 104);
+            Size = new Size(122, 102);
             Click += TileClicked;
             ((System.ComponentModel.ISupportInitialize)imgTile).EndInit();
             ResumeLayout(false);

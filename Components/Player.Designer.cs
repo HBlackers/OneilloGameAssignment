@@ -50,7 +50,7 @@
             // 
             lblPlayerTokenNum.AutoSize = true;
             lblPlayerTokenNum.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Regular, GraphicsUnit.Point);
-            lblPlayerTokenNum.ForeColor = Color.DarkOrange;
+            lblPlayerTokenNum.ForeColor = Color.White;
             lblPlayerTokenNum.Location = new Point(20, 97);
             lblPlayerTokenNum.Margin = new Padding(4, 0, 4, 0);
             lblPlayerTokenNum.Name = "lblPlayerTokenNum";
@@ -100,7 +100,7 @@
 
         #endregion
 
-        private TextBox txtPlayerName;
+        public TextBox txtPlayerName;
         private Label lblPlayerTokenNum;
         private PictureBox imgPlayerTokenColour;
         public Label lblPlayerTurn;

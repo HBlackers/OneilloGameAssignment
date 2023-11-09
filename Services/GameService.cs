@@ -10,7 +10,7 @@ namespace O_neilloGame.Services
         /// <summary>
         /// 2D array storing instances that represent where tokens can be placed
         /// </summary>
-        public ctrToken[,] GameBoard = new ctrToken[8,8];
+        public ctrToken[,] GameBoard = new ctrToken[8, 8];
         /// <summary>
         /// All the possible directions you can go according to the x axis
         /// </summary>
@@ -19,9 +19,13 @@ namespace O_neilloGame.Services
         /// All possible directions according to y axis
         /// </summary>
         private int[] _directionsY = { -1, 0, 1, 1, 1, 0, -1, -1 };
+        /// <summary>
+        /// Name of the instance of game
+        /// </summary>
+        public string GameName = DateTime.Now.ToString("g");
         #endregion
         #region GenerateGameBoard
-        public void GenerateBoard(TableLayoutPanel tlp,Player Player1, Player Player2)
+        public void GenerateBoard(TableLayoutPanel tlp, Player Player1, Player Player2)
         {
             //add tokens to backend board and front end
             for (int row = 0; row < 8; row++)
@@ -51,7 +55,7 @@ namespace O_neilloGame.Services
             //for every row and column in my gameboard
             for (int row = 0; row < 8; row++)
             {
-                for (int column  = 0; column < 8; column++)
+                for (int column = 0; column < 8; column++)
                 {
                     // if we find an empty board cell
                     if (GameBoard[row, column].TokenColour == TokenTypes.none)
@@ -66,7 +70,7 @@ namespace O_neilloGame.Services
                             int newX = row + dx;
                             int newY = column + dy;
                             // if the we are checking an edge piece of the cell we are checking which is around the empty cell is is an enemy player colour
-                            if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && 
+                            if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 &&
                                 GameBoard[newX, newY].TokenColour != player.PlayerColour && GameBoard[newX, newY].TokenColour != TokenTypes.none)
                             {
                                 int Depth = 1;
@@ -104,13 +108,13 @@ namespace O_neilloGame.Services
         /// <summary>
         /// Resets the boards legal moves - occurs inside GetLegalMoves
         /// </summary>
-        private void ResetLegalMoves() 
+        private void ResetLegalMoves()
         {
             for (int row = 0; row < 8; row++)
             {
                 for (int column = 0; column < 8; column++)
                 {
-                    GameBoard[row,column].Legal = false;
+                    GameBoard[row, column].Legal = false;
                     GameBoard[row, column].BackColor = Color.Black;
                 }
             }
@@ -158,7 +162,7 @@ namespace O_neilloGame.Services
                             break;
                         }
                         //adds enemy and empty board cells
-                        if (GameBoard[newX, newY].TokenColour != TokenClicked.TokenColour && GameBoard[newX,newY].TokenColour != TokenTypes.none)
+                        if (GameBoard[newX, newY].TokenColour != TokenClicked.TokenColour && GameBoard[newX, newY].TokenColour != TokenTypes.none)
                         {
                             PossibleTokensToFlip.Add(GameBoard[newX, newY]);
                         }
@@ -194,7 +198,6 @@ namespace O_neilloGame.Services
             }
             Token.TokenColour = Player.PlayerColour;
             Token.Legal = false;
-            Token.imgTile.SizeMode = PictureBoxSizeMode.StretchImage;
         }
         #endregion
         #region GameFinished
@@ -202,13 +205,13 @@ namespace O_neilloGame.Services
         /// Checks GameBoard if there are still legal moves on the board for the current player whos turn it is
         /// </summary>
         /// <returns>false if a legal move found, true if none are found</returns>
-        public bool CheckMovesForCurrentPlayer(Player Player) 
+        public bool CheckMovesForCurrentPlayer(Player Player)
         {
             for (int row = 0; row < 8; row++)
             {
                 for (int column = 0; column < 8; column++)
                 {
-                    if (GameBoard[row,column].Legal)
+                    if (GameBoard[row, column].Legal)
                     {
                         return true;
                     }
@@ -222,17 +225,21 @@ namespace O_neilloGame.Services
         /// </summary>
         /// <param name="Player1"></param>
         /// <param name="Player2"></param>
-        public void GetWinner(Player Player1 , Player Player2) 
+        public void GetWinner(Player Player1, Player Player2)
         {
             if (Player1.TokensOnBoards > Player2.TokensOnBoards)
             {
                 Player1.Winner = true;
-                Player1.lblPlayerTurn.Text = "Winner!";
+                Player1.lblPlayerTurn.Text = "Winner";
+                Player1.lblPlayerTurn.Visible = true;
+                Player2.lblPlayerTurn.Visible = false;
             }
-            else 
+            else
             {
                 Player2.Winner = true;
-                Player2.lblPlayerTurn.Text = "Winner!";
+                Player2.lblPlayerTurn.Text = "Winner";
+                Player2.lblPlayerTurn.Visible = true;
+                Player1.lblPlayerTurn.Visible = false;
             }
         }
         #endregion
