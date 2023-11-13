@@ -150,8 +150,8 @@ namespace O_neilloGame.Services
                         //depth of the direction in relation to the token clicked coords
                         newX = TokenClicked.XCoord + (depth * dx);
                         newY = TokenClicked.YCoord + (depth * dy);
-                        // Check if the cell exceeds the gameboards boundary or is the same colour as the token clicked then we are finished
-                        if (newX < 0 || newX >= 8 || newY < 0 || newY >= 8)
+                        // Check if the cell exceeds the gameboards boundary or the token colour is empty then we break out
+                        if (newX < 0 || newX >= 8 || newY < 0 || newY >= 8 || GameBoard[newX,newY].TokenColour == TokenTypes.none)
                         {
                             break;
                         }
@@ -198,6 +198,7 @@ namespace O_neilloGame.Services
             }
             Token.TokenColour = Player.PlayerColour;
             Token.Legal = false;
+            Token.imgTile.SizeMode = PictureBoxSizeMode.AutoSize;
         }
         #endregion
         #region GameFinished
@@ -241,6 +242,12 @@ namespace O_neilloGame.Services
                 Player2.lblPlayerTurn.Visible = true;
                 Player1.lblPlayerTurn.Visible = false;
             }
+        }
+        #endregion
+        #region SetName
+        public void SetGameName() 
+        {
+
         }
         #endregion
     }

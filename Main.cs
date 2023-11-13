@@ -1,9 +1,9 @@
 ﻿using O_neilloGame;
 using O_neilloGame.Components;
+using O_neilloGame.Models;
 using O_neilloGame.Services;
 using O_NeilloGame.Components;
-using System.Text.Json;
-
+using Newtonsoft.Json;
 namespace O_NeilloGame
 {
     public partial class Main : Form
@@ -52,14 +52,19 @@ namespace O_NeilloGame
         #region GameManagement
         private void WipeGame() 
         {
-            _gameService.GameBoard = null;
+            _gameService.GameBoard = new ctrToken[8,8];
             Player1Info = new Player(1, "Player1", true, TokenTypes.black, _gameService);
             Player2Info = new Player(2, "Player2", false, TokenTypes.white, _gameService);
+            flpGameInfo.Controls.Clear();
+            tlpGameBoard.Controls.Clear();
             LoadGame();
         }
         private void SaveGame()
         {
-            JsonSerializer.Serialize(_gameService);
+            GameModel CurrentGame = new GameModel(_gameService);
+            string Data = JsonConvert.SerializeObject(CurrentGame);
+            string file = "game_data.json";
+            File.WriteAllText(file, Data);
         }
         private void NewGame()
         {
