@@ -171,7 +171,7 @@ namespace O_neilloGame.Services
                         newX = TokenClicked.XCoord + (depth * dx);
                         newY = TokenClicked.YCoord + (depth * dy);
                         // Check if the cell exceeds the gameboards boundary or the token colour is empty then we break out
-                        if (newX < 0 || newX >= 8 || newY < 0 || newY >= 8 || GameBoard[newX, newY].TokenColour == TokenType.none)
+                        if (newX < 0 || newX >= 8 || newY < 0 || newY >= 8 || GameBoard[newX, newY].TokenColour == TokenTypes.TokenType.none)
                         {
                             break;
                         }
@@ -182,7 +182,7 @@ namespace O_neilloGame.Services
                             break;
                         }
                         //adds enemy and empty board cells
-                        if (GameBoard[newX, newY].TokenColour != TokenClicked.TokenColour && GameBoard[newX, newY].TokenColour != TokenType.none)
+                        if (GameBoard[newX, newY].TokenColour != TokenClicked.TokenColour && GameBoard[newX, newY].TokenColour != TokenTypes.TokenType.none)
                         {
                             PossibleTokensToFlip.Add(GameBoard[newX, newY]);
                         }
