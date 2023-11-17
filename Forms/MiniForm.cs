@@ -65,6 +65,7 @@ namespace O_neilloGame.Forms
         {
             _saveGamePrompt = new ctrSaveGame(_gameService);
             flpContent.Controls.Add(_saveGamePrompt);
+            Text = "Save Game";
         }
         /// <summary>
         /// Initialises Restore Feature
@@ -73,6 +74,7 @@ namespace O_neilloGame.Forms
         {
             _restoreGamePrompt = new ctrRestoreGame(_gameService);
             flpContent.Controls.Add(_restoreGamePrompt);
+            Text = "Restore Game";
         }
         /// <summary>
         /// Initialises Restore Feature
@@ -81,6 +83,7 @@ namespace O_neilloGame.Forms
         {
             _aboutGamePrompt = new ctrAbout();
             flpContent.Controls.Add(_aboutGamePrompt);
+            Text = "About";
         }
         #endregion
     }

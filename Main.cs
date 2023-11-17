@@ -16,8 +16,8 @@ namespace O_NeilloGame
         {
             InitializeComponent();
             _gameService = gameService;
-            _player1 = new Player(1, "Player1", true, TokenType.black, _gameService);
-            _player2 = new Player(2, "Player2", false, TokenType.white, _gameService);
+            _player1 = new Player(1, "Player1", true, TokenTypes.TokenType.black, _gameService);
+            _player2 = new Player(2, "Player2", false, TokenTypes.TokenType.white, _gameService);
             LoadGame();
         }
         #region ClickEvents
@@ -143,8 +143,8 @@ namespace O_NeilloGame
         private void WipeGame()
         {
             _gameService.GameBoard = new ctrToken[8, 8];
-            _player1 = new Player(1, "Player1", true, TokenType.black, _gameService);
-            _player2 = new Player(2, "Player2", false, TokenType.white, _gameService);
+            _player1 = new Player(1, "Player1", true, TokenTypes.TokenType.black, _gameService);
+            _player2 = new Player(2, "Player2", false, TokenTypes.TokenType.white, _gameService);
             flpGameInfo.Controls.Clear();
             tlpGameBoard.Controls.Clear();
             LoadGame();

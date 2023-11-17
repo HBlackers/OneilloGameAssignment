@@ -41,7 +41,7 @@ namespace O_NeilloGame.Components
         private readonly GameService _gameService;
         #endregion
         #region Constructor
-        public Player(int playerNum, string playerName, bool playerTurn, TokenType playerColour, GameService gameService)
+        public Player(int playerNum, string playerName, bool playerTurn, TokenTypes.TokenType playerColour, GameService gameService)
         {
             PlayerNum = playerNum;
             PlayerTurn = playerTurn;
