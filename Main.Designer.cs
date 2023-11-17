@@ -30,14 +30,18 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             Menu = new ToolStrip();
+            btnGame = new ToolStripDropDownButton();
+            newGameToolStripMenuItem = new ToolStripMenuItem();
+            saveGameToolStripMenuItem = new ToolStripMenuItem();
+            restoreGameToolStripMenuItem = new ToolStripMenuItem();
+            exitToolStripMenuItem = new ToolStripMenuItem();
             btnSettings = new ToolStripDropDownButton();
             informationPanelToolStripMenuItem = new ToolStripMenuItem();
             speakToolStripMenuItem = new ToolStripMenuItem();
-            btnHelp = new ToolStripButton();
+            btnHelp = new ToolStripDropDownButton();
+            helpToolStripMenuItem = new ToolStripMenuItem();
             flpGameInfo = new FlowLayoutPanel();
             tlpGameBoard = new TableLayoutPanel();
-            btnGame = new ToolStripDropDownButton();
-            newGameToolStripMenuItem = new ToolStripMenuItem();
             Menu.SuspendLayout();
             SuspendLayout();
             // 
@@ -51,6 +55,44 @@
             Menu.Size = new Size(982, 27);
             Menu.TabIndex = 0;
             Menu.Text = "tsMenu";
+            // 
+            // btnGame
+            // 
+            btnGame.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            btnGame.DropDownItems.AddRange(new ToolStripItem[] { newGameToolStripMenuItem, saveGameToolStripMenuItem, restoreGameToolStripMenuItem, exitToolStripMenuItem });
+            btnGame.Image = (Image)resources.GetObject("btnGame.Image");
+            btnGame.ImageTransparentColor = Color.Magenta;
+            btnGame.Name = "btnGame";
+            btnGame.Size = new Size(62, 24);
+            btnGame.Text = "Game";
+            // 
+            // newGameToolStripMenuItem
+            // 
+            newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
+            newGameToolStripMenuItem.Size = new Size(185, 26);
+            newGameToolStripMenuItem.Text = "New Game";
+            newGameToolStripMenuItem.Click += NewGame_Click;
+            // 
+            // saveGameToolStripMenuItem
+            // 
+            saveGameToolStripMenuItem.Name = "saveGameToolStripMenuItem";
+            saveGameToolStripMenuItem.Size = new Size(185, 26);
+            saveGameToolStripMenuItem.Text = "Save Game";
+            saveGameToolStripMenuItem.Click += SaveGame_Click;
+            // 
+            // restoreGameToolStripMenuItem
+            // 
+            restoreGameToolStripMenuItem.Name = "restoreGameToolStripMenuItem";
+            restoreGameToolStripMenuItem.Size = new Size(185, 26);
+            restoreGameToolStripMenuItem.Text = "Restore Game";
+            restoreGameToolStripMenuItem.Click += RestoreGame_Click;
+            // 
+            // exitToolStripMenuItem
+            // 
+            exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            exitToolStripMenuItem.Size = new Size(185, 26);
+            exitToolStripMenuItem.Text = "Exit";
+            exitToolStripMenuItem.Click += ExitGame_Click;
             // 
             // btnSettings
             // 
@@ -81,16 +123,24 @@
             // btnHelp
             // 
             btnHelp.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            btnHelp.DropDownItems.AddRange(new ToolStripItem[] { helpToolStripMenuItem });
             btnHelp.Image = (Image)resources.GetObject("btnHelp.Image");
             btnHelp.ImageTransparentColor = Color.Magenta;
             btnHelp.Name = "btnHelp";
-            btnHelp.Size = new Size(45, 24);
+            btnHelp.Size = new Size(55, 24);
             btnHelp.Text = "Help";
+            // 
+            // helpToolStripMenuItem
+            // 
+            helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            helpToolStripMenuItem.Size = new Size(224, 26);
+            helpToolStripMenuItem.Text = "About";
+            helpToolStripMenuItem.Click += About_Click;
             // 
             // flpGameInfo
             // 
             flpGameInfo.BackColor = Color.Chocolate;
-            flpGameInfo.Location = new Point(191, 712);
+            flpGameInfo.Location = new Point(189, 739);
             flpGameInfo.Margin = new Padding(4, 5, 4, 5);
             flpGameInfo.Name = "flpGameInfo";
             flpGameInfo.Size = new Size(600, 200);
@@ -108,7 +158,7 @@
             tlpGameBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
             tlpGameBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
             tlpGameBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.Location = new Point(42, 123);
+            tlpGameBoard.Location = new Point(134, 30);
             tlpGameBoard.Name = "tlpGameBoard";
             tlpGameBoard.RowCount = 8;
             tlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, 12.5F));
@@ -119,25 +169,8 @@
             tlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, 12.5F));
             tlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, 12.5F));
             tlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.Size = new Size(900, 500);
+            tlpGameBoard.Size = new Size(700, 700);
             tlpGameBoard.TabIndex = 3;
-            // 
-            // btnGame
-            // 
-            btnGame.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            btnGame.DropDownItems.AddRange(new ToolStripItem[] { newGameToolStripMenuItem });
-            btnGame.Image = (Image)resources.GetObject("btnGame.Image");
-            btnGame.ImageTransparentColor = Color.Magenta;
-            btnGame.Name = "btnGame";
-            btnGame.Size = new Size(62, 24);
-            btnGame.Text = "Game";
-            // 
-            // newGameToolStripMenuItem
-            // 
-            newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
-            newGameToolStripMenuItem.Size = new Size(224, 26);
-            newGameToolStripMenuItem.Text = "New Game";
-            newGameToolStripMenuItem.Click += NewGame_Click;
             // 
             // Main
             // 
@@ -145,8 +178,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(982, 953);
-            Controls.Add(tlpGameBoard);
             Controls.Add(flpGameInfo);
+            Controls.Add(tlpGameBoard);
             Controls.Add(Menu);
             ForeColor = SystemColors.ControlLightLight;
             Margin = new Padding(4, 5, 4, 5);
@@ -161,7 +194,6 @@
         #endregion
 
         private ToolStrip Menu;
-        private ToolStripButton btnHelp;
         private FlowLayoutPanel flpGameInfo;
         private TableLayoutPanel tlpGameBoard;
         private ToolStripDropDownButton btnSettings;
@@ -169,6 +201,11 @@
         private ToolStripMenuItem speakToolStripMenuItem;
         private ToolStripDropDownButton btnGame;
         private ToolStripMenuItem newGameToolStripMenuItem;
+        private ToolStripMenuItem saveGameToolStripMenuItem;
+        private ToolStripMenuItem restoreGameToolStripMenuItem;
+        private ToolStripMenuItem exitToolStripMenuItem;
+        private ToolStripDropDownButton btnHelp;
+        private ToolStripMenuItem helpToolStripMenuItem;
     }
 }
 

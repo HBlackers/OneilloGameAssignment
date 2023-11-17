@@ -1,94 +1,163 @@
-﻿using O_neilloGame;
-using O_neilloGame.Components;
-using O_neilloGame.Models;
+﻿using O_neilloGame.Components;
 using O_neilloGame.Services;
 using O_NeilloGame.Components;
-using Newtonsoft.Json;
+using O_neilloGame.Forms;
+using O_neilloGame.Common.Enums;
+
 namespace O_NeilloGame
 {
     public partial class Main : Form
     {
         private readonly GameService _gameService;
-        public Player Player1Info;
-        public Player Player2Info;
+        private Player _player1;
+        private Player _player2;
+        private MiniForm _miniForm;
         public Main(GameService gameService)
         {
             InitializeComponent();
             _gameService = gameService;
-            Player1Info = new Player(1, "Player1", true, TokenTypes.black, _gameService);
-            Player2Info = new Player(2, "Player2", false, TokenTypes.white, _gameService);
+            _player1 = new Player(1, "Player1", true, TokenType.black, _gameService);
+            _player2 = new Player(2, "Player2", false, TokenType.white, _gameService);
             LoadGame();
         }
-        private void LoadGame()
+        #region ClickEvents
+        #region Help
+        /// <summary>
+        /// Opens About Feature
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void About_Click(object sender, EventArgs e)
         {
-            flpGameInfo.Controls.Add(Player1Info);
-            flpGameInfo.Controls.Add(Player2Info);
-            _gameService.GenerateBoard(tlpGameBoard, Player1Info, Player2Info);
-            _gameService.GetLegalMoves(Player1Info);
+            CreateForm(ModalFormType.Purpose.About);
         }
-        #region MainMenu
-        #region Menu Help
+        #endregion
+        #region Settings
+        /// <summary>
+        /// Hides/Unhides the information panel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Information_Click(object sender, EventArgs e)
         {
             flpGameInfo.Visible = !flpGameInfo.Visible;
             informationPanelToolStripMenuItem.Checked = flpGameInfo.Visible;
-
         }
-
+        /// <summary>
+        /// Turns on/off the speech feature
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Speak_Click(object sender, EventArgs e)
         {
             //Sets speak property to the oppossite of what it currently is for both players
-            Player1Info.Speak = !Player1Info.Speak;
-            Player2Info.Speak = !Player2Info.Speak;
+            _player1.Speak = !_player1.Speak;
+            _player2.Speak = !_player2.Speak;
             //changes the checked box
             speakToolStripMenuItem.Checked = !speakToolStripMenuItem.Checked;
             //states the players turn
-            Player1Info.StateTurn();
-            Player2Info.StateTurn();
+            _player1.StateTurn();
+            _player2.StateTurn();
+        }
+        #endregion
+        #region Game
+        /// <summary>
+        /// Opens Save Feature
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveGame_Click(object sender, EventArgs e)
+        {
+            CreateForm(ModalFormType.Purpose.RestoreGame);
+        }
+        /// <summary>
+        /// Closes the game
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExitGame_Click(object sender, EventArgs e)
+        {
+            switch (SaveGamePrompt())
+            {
+                case DialogResult.Yes:
+                    CreateForm(ModalFormType.Purpose.SaveGame);
+                    WipeGame();
+                    break;
+                case DialogResult.No:
+                    Dispose();
+                    break;
+            }
+        }
+        /// <summary>
+        /// Creates a New Game
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NewGame_Click(object sender, EventArgs e)
+        {
+            switch (SaveGamePrompt())
+            {
+                case DialogResult.Yes:
+                    CreateForm(ModalFormType.Purpose.SaveGame);
+                    WipeGame();
+                    break;
+                case DialogResult.No:
+                    WipeGame();
+                    break;
+            }
+        }
+        /// <summary>
+        /// Opens Restore Game Feature
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RestoreGame_Click(object sender, EventArgs e)
+        {
+            CreateForm(ModalFormType.Purpose.RestoreGame);
         }
         #endregion
         #endregion
-        #region Menu Game
-        #region GameManagement
-        private void WipeGame() 
+        #region CreateModalForm
+        /// <summary>
+        /// Creates Modal Form
+        /// </summary>
+        private void CreateForm(ModalFormType.Purpose purpose)
         {
-            _gameService.GameBoard = new ctrToken[8,8];
-            Player1Info = new Player(1, "Player1", true, TokenTypes.black, _gameService);
-            Player2Info = new Player(2, "Player2", false, TokenTypes.white, _gameService);
+            _miniForm = new MiniForm(_gameService, purpose);
+            _miniForm.ShowDialog();
+        }
+        #endregion
+        /// <summary>
+        ///Loads the game
+        /// </summary>
+        private void LoadGame()
+        {
+            flpGameInfo.Controls.Add(_player1);
+            flpGameInfo.Controls.Add(_player2);
+            _gameService.GenerateBoard(tlpGameBoard, _player1, _player2);
+            _gameService.GetLegalMoves(_player1);
+        }
+        /// <summary>
+        /// Wipes game and loads up a new game
+        /// </summary>
+        private void WipeGame()
+        {
+            _gameService.GameBoard = new ctrToken[8, 8];
+            _player1 = new Player(1, "Player1", true, TokenType.black, _gameService);
+            _player2 = new Player(2, "Player2", false, TokenType.white, _gameService);
             flpGameInfo.Controls.Clear();
             tlpGameBoard.Controls.Clear();
             LoadGame();
         }
-        private void SaveGame()
+        #region UserNotification
+        /// <summary>
+        /// Prompts the user to save the game if they are exiting the application or starting a new game
+        /// </summary>
+        /// <returns>Returns the users choice</returns>
+        private DialogResult SaveGamePrompt()
         {
-            GameModel CurrentGame = new GameModel(_gameService);
-            string Data = JsonConvert.SerializeObject(CurrentGame);
-            string file = "game_data.json";
-            File.WriteAllText(file, Data);
-        }
-        private void NewGame()
-        {
-            string Message = "Would you like to save the game";
-            string Caption = "Start New Game";
-            MessageBoxButtons Buttons = MessageBoxButtons.YesNoCancel;
-            DialogResult Confirm = MessageBox.Show(Message, Caption, Buttons);
-
-            if (Confirm == DialogResult.Yes)
-            {
-                SaveGame();
-                WipeGame();
-            }
-            else if (Confirm == DialogResult.No)
-            {
-                WipeGame();
-            }
+            return MessageBox.Show("Would you like to save the game", "Start New Game", MessageBoxButtons.YesNoCancel);
         }
         #endregion
-        #endregion
-
-        private void NewGame_Click(object sender, EventArgs e)
-        {
-            NewGame();            
-        }
     }
 }

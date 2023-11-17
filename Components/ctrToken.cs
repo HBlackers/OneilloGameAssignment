@@ -1,15 +1,19 @@
-﻿using O_neilloGame.Services;
+﻿using O_neilloGame.Common.Enums;
+using O_neilloGame.Services;
 using O_NeilloGame.Components;
 
 namespace O_neilloGame.Components
 {
+    /// <summary>
+    /// Represents each Sqaure on the Board
+    /// </summary>
     public partial class ctrToken : UserControl
     {
         #region Properties
         /// <summary>
         /// State of the token
         /// </summary>
-        public TokenTypes TokenColour = TokenTypes.none;
+        public TokenTypes.TokenType TokenColour = TokenTypes.TokenType.none;
         /// <summary>
         /// The two players
         /// </summary>
@@ -20,9 +24,12 @@ namespace O_neilloGame.Components
         /// </summary>
         public bool Legal = false;
         /// <summary>
-        /// coordinates of the tile on the gameboard array
+        /// coordinates of the tile on the gameboard array on x axis
         /// </summary>
         public int XCoord;
+        /// <summary>
+        /// coordinates of the tile on the gameboard array on y axis
+        /// </summary>
         public int YCoord;
         private readonly GameService _gameService;
         #endregion

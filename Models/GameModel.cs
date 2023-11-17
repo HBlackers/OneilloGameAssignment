@@ -1,23 +1,37 @@
-﻿using O_neilloGame.Components;
-using O_neilloGame.Services;
-using O_NeilloGame.Components;
+﻿using O_neilloGame.Services;
 
 namespace O_neilloGame.Models
 {
+    /// <summary>
+    /// Stores an instance of a saved game
+    /// </summary>
     public class GameModel
     {
         #region Properties
-        private string _gameName;
-        private ctrToken[,] _gameBoard;
-        private Player _player1;
-        private Player _player2;
+        /// <summary>
+        /// Name of Game Instance
+        /// </summary>
+        public string GameName;
+        /// <summary>
+        /// GameBoard
+        /// </summary>
+        public TokenModel[,] GameBoard;
         private readonly GameService _gameservice;
+        #endregion
+        #region Constructors
+        /// <summary>
+        /// Used During JSON Deserialization
+        /// </summary>
+        public GameModel(){ }
+        /// <summary>
+        /// Used to transfer the current games backend properties into the model for serialization
+        /// </summary>
+        /// <param name="gameService"></param>
         public GameModel(GameService gameService) 
         {
             _gameservice = gameService;
-            _gameName = _gameservice.GameName;
-            _gameBoard = _gameservice.GameBoard;
-
+            GameName = _gameservice.GameName;
+            GameBoard = _gameservice.GameBoardModel;
         }
         #endregion
     }

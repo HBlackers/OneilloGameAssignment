@@ -1,4 +1,6 @@
-﻿namespace O_NeilloGame.Components
+﻿
+
+namespace O_NeilloGame.Components
 {
     partial class Player
     {
@@ -60,11 +62,11 @@
             // 
             // imgPlayerTokenColour
             // 
-            imgPlayerTokenColour.BackColor = SystemColors.HotTrack;
+            imgPlayerTokenColour.BackColor = SystemColors.HighlightText;
             imgPlayerTokenColour.Location = new Point(80, 69);
             imgPlayerTokenColour.Margin = new Padding(4, 5, 4, 5);
             imgPlayerTokenColour.Name = "imgPlayerTokenColour";
-            imgPlayerTokenColour.Size = new Size(188, 75);
+            imgPlayerTokenColour.Size = new Size(80, 80);
             imgPlayerTokenColour.SizeMode = PictureBoxSizeMode.StretchImage;
             imgPlayerTokenColour.TabIndex = 2;
             imgPlayerTokenColour.TabStop = false;
@@ -102,7 +104,7 @@
 
         public TextBox txtPlayerName;
         private Label lblPlayerTokenNum;
-        private PictureBox imgPlayerTokenColour;
+        public PictureBox imgPlayerTokenColour;
         public Label lblPlayerTurn;
     }
 }

@@ -1,9 +1,14 @@
-﻿using O_neilloGame.Components;
+﻿using O_neilloGame.Common.Enums;
+using O_neilloGame.Components;
+using O_neilloGame.Models;
 using O_neilloGame.Properties;
 using O_NeilloGame.Components;
 
 namespace O_neilloGame.Services
 {
+    /// <summary>
+    /// Handles all of game logic
+    /// </summary>
     public class GameService
     {
         #region Properties
@@ -22,10 +27,22 @@ namespace O_neilloGame.Services
         /// <summary>
         /// Name of the instance of game
         /// </summary>
-        public string GameName = DateTime.Now.ToString("g");
+        public string GameName;
+        /// <summary>
+        /// Instance of players in the game
+        /// </summary>
+        public Player Player1;
+        /// <summary>
+        /// Instance of players in the game
+        /// </summary>
+        public Player Player2;
+        /// <summary>
+        /// Model of GameBoard
+        /// </summary>
+        public TokenModel[,] GameBoardModel = new TokenModel[8, 8];
         #endregion
         #region GenerateGameBoard
-        public void GenerateBoard(TableLayoutPanel tlp, Player Player1, Player Player2)
+        public void GenerateBoard(TableLayoutPanel tlp, Player player1, Player player2)
         {
             //add tokens to backend board and front end
             for (int row = 0; row < 8; row++)
@@ -33,15 +50,18 @@ namespace O_neilloGame.Services
                 for (int column = 0; column < 8; column++)
                 {
                     //add instances to mygameboard
-                    GameBoard[row, column] = new ctrToken(Player1, Player2, this) { Enabled = true, XCoord = row, YCoord = column };                    //adds token to specifc column index and row index of tlp
+                    GameBoard[row, column] = new ctrToken(player1, player2, this) { Enabled = true, XCoord = row, YCoord = column };
+                    //adds token to specifc column index and row index of tlp
                     tlp.Controls.Add(GameBoard[row, column], row, column);
                 }
             }
             //set four blocks in the middle to have token
-            ChangeTokenDisplayColour(Player2, GameBoard[3, 3]);
-            ChangeTokenDisplayColour(Player1, GameBoard[3, 4]);
-            ChangeTokenDisplayColour(Player1, GameBoard[4, 3]);
-            ChangeTokenDisplayColour(Player2, GameBoard[4, 4]);
+            ChangeTokenDisplayColour(player2, GameBoard[3, 3]);
+            ChangeTokenDisplayColour(player1, GameBoard[3, 4]);
+            ChangeTokenDisplayColour(player1, GameBoard[4, 3]);
+            ChangeTokenDisplayColour(player2, GameBoard[4, 4]);
+            Player1 = player1;
+            Player2 = player2;
         }
         #endregion
         #region LegalMovesOnBoard
@@ -58,7 +78,7 @@ namespace O_neilloGame.Services
                 for (int column = 0; column < 8; column++)
                 {
                     // if we find an empty board cell
-                    if (GameBoard[row, column].TokenColour == TokenTypes.none)
+                    if (GameBoard[row, column].TokenColour == TokenTypes.TokenType.none)
                     {
                         bool isValidMove = false;
                         for (int i = 0; i < 8; i++)
@@ -71,7 +91,7 @@ namespace O_neilloGame.Services
                             int newY = column + dy;
                             // if the we are checking an edge piece of the cell we are checking which is around the empty cell is is an enemy player colour
                             if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 &&
-                                GameBoard[newX, newY].TokenColour != player.PlayerColour && GameBoard[newX, newY].TokenColour != TokenTypes.none)
+                                GameBoard[newX, newY].TokenColour != player.PlayerColour && GameBoard[newX, newY].TokenColour != TokenTypes.TokenType.none)
                             {
                                 int Depth = 1;
                                 while (true)
@@ -80,7 +100,7 @@ namespace O_neilloGame.Services
                                     newX = row + (Depth * dx);
                                     newY = column + (Depth * dy);
                                     //if the depth of that direction hits the edge of the board or we hit an empty board cell
-                                    if (newX < 0 || newX >= 8 || newY < 0 || newY >= 8 || GameBoard[newX, newY].TokenColour == TokenTypes.none)
+                                    if (newX < 0 || newX >= 8 || newY < 0 || newY >= 8 || GameBoard[newX, newY].TokenColour == TokenTypes.TokenType.none)
                                     {
                                         break;
                                     }
@@ -151,7 +171,7 @@ namespace O_neilloGame.Services
                         newX = TokenClicked.XCoord + (depth * dx);
                         newY = TokenClicked.YCoord + (depth * dy);
                         // Check if the cell exceeds the gameboards boundary or the token colour is empty then we break out
-                        if (newX < 0 || newX >= 8 || newY < 0 || newY >= 8 || GameBoard[newX,newY].TokenColour == TokenTypes.none)
+                        if (newX < 0 || newX >= 8 || newY < 0 || newY >= 8 || GameBoard[newX, newY].TokenColour == TokenType.none)
                         {
                             break;
                         }
@@ -162,12 +182,13 @@ namespace O_neilloGame.Services
                             break;
                         }
                         //adds enemy and empty board cells
-                        if (GameBoard[newX, newY].TokenColour != TokenClicked.TokenColour && GameBoard[newX, newY].TokenColour != TokenTypes.none)
+                        if (GameBoard[newX, newY].TokenColour != TokenClicked.TokenColour && GameBoard[newX, newY].TokenColour != TokenType.none)
                         {
                             PossibleTokensToFlip.Add(GameBoard[newX, newY]);
                         }
                         depth++;
                     }
+                    //adds the multiple tokens in between two of the players colour to the true list
                     if (SameColourFound)
                     {
                         foreach (var Token in PossibleTokensToFlip)
@@ -189,16 +210,36 @@ namespace O_neilloGame.Services
         {
             switch (Player.PlayerColour)
             {
-                case TokenTypes.black:
+                case TokenTypes.TokenType.black:
                     Token.imgTile.Image = Resources.BlackToken;
                     break;
-                case TokenTypes.white:
+                case TokenTypes.TokenType.white:
                     Token.imgTile.Image = Resources.WhiteToken;
                     break;
             }
             Token.TokenColour = Player.PlayerColour;
+            Token.imgTile.SizeMode = PictureBoxSizeMode.Zoom;
             Token.Legal = false;
-            Token.imgTile.SizeMode = PictureBoxSizeMode.AutoSize;
+        }
+        /// <summary>
+        /// Change the colour displayed inside the specific token - used in the restore process
+        /// </summary>
+        /// <param name="tokenColour">Used to directly update the token colours</param>
+        /// <param name="token">Sqaure on the board</param>
+        public static void ChangeTokenDisplayColour(TokenTypes.TokenType tokenColour, ctrToken token)
+        {
+            switch (tokenColour)
+            {
+                case TokenTypes.TokenType.black:
+                    token.imgTile.Image = Resources.BlackToken;
+                    break;
+                case TokenTypes.TokenType.white:
+                    token.imgTile.Image = Resources.WhiteToken;
+                    break;
+            }
+            token.TokenColour = tokenColour;
+            token.imgTile.SizeMode = PictureBoxSizeMode.Zoom;
+            token.Legal = false;
         }
         #endregion
         #region GameFinished
@@ -206,7 +247,7 @@ namespace O_neilloGame.Services
         /// Checks GameBoard if there are still legal moves on the board for the current player whos turn it is
         /// </summary>
         /// <returns>false if a legal move found, true if none are found</returns>
-        public bool CheckMovesForCurrentPlayer(Player Player)
+        public bool CheckMovesForCurrentPlayer(Player player)
         {
             for (int row = 0; row < 8; row++)
             {
@@ -218,36 +259,116 @@ namespace O_neilloGame.Services
                     }
                 }
             }
-            MessageBox.Show($"{Player.PlayerName} has no legal moves");
+            MessageBox.Show($"{player.PlayerName} has no legal moves");
             return false;
         }
         /// <summary>
         /// Checks which player has the most tokens and sets the winner
         /// </summary>
-        /// <param name="Player1"></param>
-        /// <param name="Player2"></param>
-        public void GetWinner(Player Player1, Player Player2)
+        /// <param name="player1"></param>
+        /// <param name="player2"></param>
+        public void GetWinner(Player player1, Player player2)
         {
-            if (Player1.TokensOnBoards > Player2.TokensOnBoards)
+            if (player1.TokensOnBoards > player2.TokensOnBoards)
             {
-                Player1.Winner = true;
-                Player1.lblPlayerTurn.Text = "Winner";
-                Player1.lblPlayerTurn.Visible = true;
-                Player2.lblPlayerTurn.Visible = false;
+                player1.Winner = true;
+                player1.lblPlayerTurn.Text = "Winner";
+                player1.lblPlayerTurn.Visible = true;
+                player2.lblPlayerTurn.Visible = false;
             }
             else
             {
-                Player2.Winner = true;
-                Player2.lblPlayerTurn.Text = "Winner";
-                Player2.lblPlayerTurn.Visible = true;
-                Player1.lblPlayerTurn.Visible = false;
+                player2.Winner = true;
+                player2.lblPlayerTurn.Text = "Winner";
+                player2.lblPlayerTurn.Visible = true;
+                player1.lblPlayerTurn.Visible = false;
             }
         }
         #endregion
         #region SetName
-        public void SetGameName() 
+        /// <summary>
+        /// Used to initialise the game name
+        /// </summary>
+        /// <param name="gameName"></param>
+        public void SetGameName(string gameName)
         {
+            GameName = gameName;
+        }
+        #endregion
+        #region CreateModels
+        /// <summary>
+        /// creates models of the game objects needed to restore a game instance
+        /// </summary>
+        public void CreateModels()
+        {
+            for (int row = 0; row < 8; row++)
+            {
+                for (int column = 0; column < 8; column++)
+                {
+                    GameBoardModel[row, column] = new TokenModel(GameBoard[row, column], new PlayerModel(Player1), new PlayerModel(Player2));
+                }
+            }
+        }
+        #endregion
+        #region RestoreGame
+        /// <summary>
+        /// Restores the players 
+        /// </summary>
+        /// <param name="game"></param>
+        private void RestorePlayers(GameModel game) 
+        {
+            Player1.PlayerColour = game.GameBoard[3, 4].Player1.PlayerColour;
+            Player1.RestoreTokensOnBoard(game.GameBoard[3, 4].Player1.PlayerNum);
+            Player1.RestorePlayerName(game.GameBoard[3, 4].Player1.PlayerName);
+            Player1.RestoreplayerTurn(game.GameBoard[3, 4].Player1.PlayerTurn);
+            Player1.RestoreTokensOnBoard(game.GameBoard[3, 4].Player1.TokensOnBoards);
+            Player1.Winner = game.GameBoard[3, 4].Player1.Winner;
+            Player1.Speak = game.GameBoard[3, 4].Player1.Speak;
 
+            Player2.PlayerColour = game.GameBoard[3, 3].Player2.PlayerColour;
+            Player2.RestoreTokensOnBoard(game.GameBoard[3, 4].Player2.PlayerNum);
+            Player2.RestorePlayerName(game.GameBoard[3, 4].Player2.PlayerName);
+            Player2.RestoreplayerTurn(game.GameBoard[3, 4].Player2.PlayerTurn);
+            Player2.RestoreTokensOnBoard(game.GameBoard[3, 4].Player2.TokensOnBoards);
+            Player2.Speak = game.GameBoard[3, 3].Player2.Speak;
+            Player2.Winner = game.GameBoard[3, 3].Player2.Winner;
+        }
+        /// <summary>
+        /// Restores the entire game from a previous save
+        /// </summary>
+        /// <param name="game"></param>
+        public void RestoreGame(GameModel game) 
+        {
+            RestorePlayers(game);
+            game.GameName = GameName;
+            for (int row = 0; row < 8; row++)
+            {
+                for (int column = 0; column < 8; column++)
+                {
+                    //Restores the state of each Token
+                    ChangeTokenDisplayColour(game.GameBoard[row, column].TokenColour, GameBoard[row, column]);
+                    GameBoard[row, column].XCoord = game.GameBoard[row, column].XCoord;
+                    GameBoard[row, column].YCoord = game.GameBoard[row, column].YCoord;
+                    //Restores the properties of the player instance passed inside each Token
+                    GameBoard[row, column].Player1.PlayerColour = game.GameBoard[row, column].Player1.PlayerColour;
+                    GameBoard[row, column].Player1.PlayerNum = game.GameBoard[row, column].Player1.PlayerNum;
+                    GameBoard[row, column].Player1.PlayerName = game.GameBoard[row, column].Player1.PlayerName;
+                    GameBoard[row, column].Player1.PlayerTurn = game.GameBoard[row, column].Player1.PlayerTurn;
+                    GameBoard[row, column].Player1.Speak = game.GameBoard[row, column].Player1.Speak;
+                    GameBoard[row, column].Player1.TokensOnBoards = game.GameBoard[row, column].Player1.TokensOnBoards;
+                    GameBoard[row, column].Player1.Winner = game.GameBoard[row, column].Player1.Winner;
+
+                    GameBoard[row, column].Player2.PlayerColour = game.GameBoard[row, column].Player2.PlayerColour;
+                    GameBoard[row, column].Player2.PlayerNum = game.GameBoard[row, column].Player2.PlayerNum;
+                    GameBoard[row, column].Player2.PlayerName = game.GameBoard[row, column].Player2.PlayerName;
+                    GameBoard[row, column].Player2.PlayerTurn = game.GameBoard[row, column].Player2.PlayerTurn;
+                    GameBoard[row, column].Player2.Speak = game.GameBoard[row, column].Player2.Speak;
+                    GameBoard[row, column].Player2.TokensOnBoards = game.GameBoard[row, column].Player2.TokensOnBoards;
+                    GameBoard[row, column].Player2.Winner = game.GameBoard[row, column].Player2.Winner;
+                }
+            }
+            //Gets the legal moves so the game can continue 
+            GetLegalMoves(Player1.PlayerTurn ? Player1 : Player2);
         }
         #endregion
     }
