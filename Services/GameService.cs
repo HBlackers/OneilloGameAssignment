@@ -2,6 +2,7 @@
 using O_neilloGame.Components;
 using O_neilloGame.Models;
 using O_neilloGame.Properties;
+using O_NeilloGame;
 using O_NeilloGame.Components;
 
 namespace O_neilloGame.Services
@@ -30,7 +31,7 @@ namespace O_neilloGame.Services
         public string GameName;
         /// <summary>
         /// Instance of players in the game
-        /// </summary>
+        /// </summary
         public Player Player1;
         /// <summary>
         /// Instance of players in the game
@@ -40,28 +41,39 @@ namespace O_neilloGame.Services
         /// Model of GameBoard
         /// </summary>
         public TokenModel[,] GameBoardModel = new TokenModel[8, 8];
+
+        private readonly SettingsService _settingsService;
         #endregion
-        #region GenerateGameBoard
-        public void GenerateBoard(TableLayoutPanel tlp, Player player1, Player player2)
+        public GameService(SettingsService settingsService) 
         {
+            _settingsService = settingsService;
+        }
+        #region GenerateGameBoard
+        /// <summary>
+        /// Generates the GameBoard when application is loaded
+        /// </summary>
+        /// <param name="tlp"></param>
+        public void GenerateBoard(TableLayoutPanel tlp)
+        {
+            Player1 = new Player(1, "Player1", true, TokenTypes.TokenType.black, this);
+            Player2 = new Player(2, "Player2", false, TokenTypes.TokenType.white, this);
             //add tokens to backend board and front end
             for (int row = 0; row < 8; row++)
             {
                 for (int column = 0; column < 8; column++)
                 {
                     //add instances to mygameboard
-                    GameBoard[row, column] = new ctrToken(player1, player2, this) { Enabled = true, XCoord = row, YCoord = column };
+                    GameBoard[row, column] = new ctrToken(Player1, Player2, this, _settingsService)
+                    { Enabled = true, XCoord = row, YCoord = column };
                     //adds token to specifc column index and row index of tlp
                     tlp.Controls.Add(GameBoard[row, column], row, column);
                 }
             }
             //set four blocks in the middle to have token
-            ChangeTokenDisplayColour(player2, GameBoard[3, 3]);
-            ChangeTokenDisplayColour(player1, GameBoard[3, 4]);
-            ChangeTokenDisplayColour(player1, GameBoard[4, 3]);
-            ChangeTokenDisplayColour(player2, GameBoard[4, 4]);
-            Player1 = player1;
-            Player2 = player2;
+            ChangeTokenDisplayColour(Player2, GameBoard[3, 3]);
+            ChangeTokenDisplayColour(Player1, GameBoard[3, 4]);
+            ChangeTokenDisplayColour(Player1, GameBoard[4, 3]);
+            ChangeTokenDisplayColour(Player2, GameBoard[4, 4]);
         }
         #endregion
         #region LegalMovesOnBoard
@@ -315,7 +327,7 @@ namespace O_neilloGame.Services
         /// Restores the players 
         /// </summary>
         /// <param name="game"></param>
-        private void RestorePlayers(GameModel game) 
+        private void RestorePlayers(GameServiceModel game) 
         {
             Player1.PlayerColour = game.GameBoard[3, 4].Player1.PlayerColour;
             Player1.RestoreTokensOnBoard(game.GameBoard[3, 4].Player1.PlayerNum);
@@ -323,21 +335,19 @@ namespace O_neilloGame.Services
             Player1.RestoreplayerTurn(game.GameBoard[3, 4].Player1.PlayerTurn);
             Player1.RestoreTokensOnBoard(game.GameBoard[3, 4].Player1.TokensOnBoards);
             Player1.Winner = game.GameBoard[3, 4].Player1.Winner;
-            Player1.Speak = game.GameBoard[3, 4].Player1.Speak;
 
             Player2.PlayerColour = game.GameBoard[3, 3].Player2.PlayerColour;
             Player2.RestoreTokensOnBoard(game.GameBoard[3, 4].Player2.PlayerNum);
             Player2.RestorePlayerName(game.GameBoard[3, 4].Player2.PlayerName);
             Player2.RestoreplayerTurn(game.GameBoard[3, 4].Player2.PlayerTurn);
             Player2.RestoreTokensOnBoard(game.GameBoard[3, 4].Player2.TokensOnBoards);
-            Player2.Speak = game.GameBoard[3, 3].Player2.Speak;
             Player2.Winner = game.GameBoard[3, 3].Player2.Winner;
         }
         /// <summary>
         /// Restores the entire game from a previous save
         /// </summary>
         /// <param name="game"></param>
-        public void RestoreGame(GameModel game) 
+        public void RestoreGame(GameServiceModel game) 
         {
             RestorePlayers(game);
             game.GameName = GameName;
@@ -354,7 +364,6 @@ namespace O_neilloGame.Services
                     GameBoard[row, column].Player1.PlayerNum = game.GameBoard[row, column].Player1.PlayerNum;
                     GameBoard[row, column].Player1.PlayerName = game.GameBoard[row, column].Player1.PlayerName;
                     GameBoard[row, column].Player1.PlayerTurn = game.GameBoard[row, column].Player1.PlayerTurn;
-                    GameBoard[row, column].Player1.Speak = game.GameBoard[row, column].Player1.Speak;
                     GameBoard[row, column].Player1.TokensOnBoards = game.GameBoard[row, column].Player1.TokensOnBoards;
                     GameBoard[row, column].Player1.Winner = game.GameBoard[row, column].Player1.Winner;
 
@@ -362,13 +371,24 @@ namespace O_neilloGame.Services
                     GameBoard[row, column].Player2.PlayerNum = game.GameBoard[row, column].Player2.PlayerNum;
                     GameBoard[row, column].Player2.PlayerName = game.GameBoard[row, column].Player2.PlayerName;
                     GameBoard[row, column].Player2.PlayerTurn = game.GameBoard[row, column].Player2.PlayerTurn;
-                    GameBoard[row, column].Player2.Speak = game.GameBoard[row, column].Player2.Speak;
                     GameBoard[row, column].Player2.TokensOnBoards = game.GameBoard[row, column].Player2.TokensOnBoards;
                     GameBoard[row, column].Player2.Winner = game.GameBoard[row, column].Player2.Winner;
                 }
             }
             //Gets the legal moves so the game can continue 
-            GetLegalMoves(Player1.PlayerTurn ? Player1 : Player2);
+            var currentPlayer = Player1.PlayerTurn ? Player1 : Player2;
+            GetLegalMoves(currentPlayer);
+            _settingsService.StateTurn(currentPlayer);
+        }
+        /// <summary>
+        /// Resets Game Properties
+        /// </summary>
+        public void ResetGame() 
+        {
+            GameName = string.Empty;
+            GameBoard = new ctrToken[8, 8];
+            Player1 = new Player(1, "Player1", true, TokenTypes.TokenType.black, this);
+            Player2 = new Player(2, "Player2", false, TokenTypes.TokenType.white, this);
         }
         #endregion
     }

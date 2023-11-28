@@ -14,6 +14,7 @@ namespace O_neilloGame
         {
             ServiceCollection services = new ServiceCollection();
             services.AddSingleton<GameService>();
+            services.AddSingleton<SettingsService>();
             services.AddSingleton<Main>();
             return services.BuildServiceProvider();
         }

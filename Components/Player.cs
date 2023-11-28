@@ -34,10 +34,6 @@ namespace O_NeilloGame.Components
         /// colour player is using can only be black or white
         /// </summary>
         public TokenTypes.TokenType PlayerColour;
-        /// <summary>
-        /// Determines wether speak setting is enabled
-        /// </summary>
-        public bool Speak = false;
         private readonly GameService _gameService;
         #endregion
         #region Constructor
@@ -137,21 +133,6 @@ namespace O_NeilloGame.Components
         {
             TokensOnBoards = tokens;
             lblPlayerTokenNum.Text = tokens.ToString();
-        }
-        #endregion
-        #region StatePlayersTurn
-        /// <summary>
-        /// Speaks the user's turn
-        /// </summary>
-        public void StateTurn()
-        {
-            if (PlayerTurn && Speak)
-            {
-                SpeechSynthesizer Synthesizer = new SpeechSynthesizer();
-                Synthesizer.Volume = 100;
-                Synthesizer.Rate = 1;
-                Synthesizer.SpeakAsync(PlayerName + " Turn");
-            }
         }
         #endregion
         #region PlayerNameChangedEventHandler

@@ -1,6 +1,4 @@
-﻿using O_neilloGame.Components;
-using O_neilloGame.Services;
-using O_NeilloGame.Components;
+﻿using O_neilloGame.Services;
 using O_neilloGame.Forms;
 using O_neilloGame.Common.Enums;
 
@@ -9,18 +7,17 @@ namespace O_NeilloGame
     public partial class Main : Form
     {
         private readonly GameService _gameService;
-        private Player _player1;
-        private Player _player2;
+        private readonly SettingsService _settingsService;
         private MiniForm _miniForm;
-        public Main(GameService gameService)
+        public Main(GameService gameService, SettingsService settingsService)
         {
             InitializeComponent();
             _gameService = gameService;
-            _player1 = new Player(1, "Player1", true, TokenTypes.TokenType.black, _gameService);
-            _player2 = new Player(2, "Player2", false, TokenTypes.TokenType.white, _gameService);
+            _settingsService = settingsService;
             LoadGame();
         }
         #region ClickEvents
+
         #region Help
         /// <summary>
         /// Opens About Feature
@@ -40,8 +37,9 @@ namespace O_NeilloGame
         /// <param name="e"></param>
         private void Information_Click(object sender, EventArgs e)
         {
+            _settingsService.ShowInfoPanel = !_settingsService.ShowInfoPanel;
             flpGameInfo.Visible = !flpGameInfo.Visible;
-            informationPanelToolStripMenuItem.Checked = flpGameInfo.Visible;
+            informationPanelToolStripMenuItem.Checked = !informationPanelToolStripMenuItem.Checked;
         }
         /// <summary>
         /// Turns on/off the speech feature
@@ -51,13 +49,12 @@ namespace O_NeilloGame
         private void Speak_Click(object sender, EventArgs e)
         {
             //Sets speak property to the oppossite of what it currently is for both players
-            _player1.Speak = !_player1.Speak;
-            _player2.Speak = !_player2.Speak;
+            _settingsService.Speak = !_settingsService.Speak;
             //changes the checked box
             speakToolStripMenuItem.Checked = !speakToolStripMenuItem.Checked;
             //states the players turn
-            _player1.StateTurn();
-            _player2.StateTurn();
+            _settingsService.StateTurn(_gameService.Player1);
+            _settingsService.StateTurn(_gameService.Player2);
         }
         #endregion
         #region Game
@@ -68,7 +65,7 @@ namespace O_NeilloGame
         /// <param name="e"></param>
         private void SaveGame_Click(object sender, EventArgs e)
         {
-            CreateForm(ModalFormType.Purpose.RestoreGame);
+            CreateForm(ModalFormType.Purpose.SaveGame);
         }
         /// <summary>
         /// Closes the game
@@ -113,6 +110,7 @@ namespace O_NeilloGame
         /// <param name="e"></param>
         private void RestoreGame_Click(object sender, EventArgs e)
         {
+            WipeGame();
             CreateForm(ModalFormType.Purpose.RestoreGame);
         }
         #endregion
@@ -121,9 +119,9 @@ namespace O_NeilloGame
         /// <summary>
         /// Creates Modal Form
         /// </summary>
-        private void CreateForm(ModalFormType.Purpose purpose)
+        public void CreateForm(ModalFormType.Purpose purpose)
         {
-            _miniForm = new MiniForm(_gameService, purpose);
+            _miniForm = new MiniForm(_gameService,_settingsService,purpose,this);
             _miniForm.ShowDialog();
         }
         #endregion
@@ -132,19 +130,17 @@ namespace O_NeilloGame
         /// </summary>
         private void LoadGame()
         {
-            flpGameInfo.Controls.Add(_player1);
-            flpGameInfo.Controls.Add(_player2);
-            _gameService.GenerateBoard(tlpGameBoard, _player1, _player2);
-            _gameService.GetLegalMoves(_player1);
+            _gameService.GenerateBoard(tlpGameBoard);
+            _gameService.GetLegalMoves(_gameService.Player1);
+            flpGameInfo.Controls.Add(_gameService.Player1);
+            flpGameInfo.Controls.Add(_gameService.Player2);
         }
         /// <summary>
         /// Wipes game and loads up a new game
         /// </summary>
         private void WipeGame()
         {
-            _gameService.GameBoard = new ctrToken[8, 8];
-            _player1 = new Player(1, "Player1", true, TokenTypes.TokenType.black, _gameService);
-            _player2 = new Player(2, "Player2", false, TokenTypes.TokenType.white, _gameService);
+            _gameService.ResetGame();
             flpGameInfo.Controls.Clear();
             tlpGameBoard.Controls.Clear();
             LoadGame();
@@ -157,6 +153,14 @@ namespace O_NeilloGame
         private DialogResult SaveGamePrompt()
         {
             return MessageBox.Show("Would you like to save the game", "Start New Game", MessageBoxButtons.YesNoCancel);
+        }
+        #endregion
+        #region refresh page
+        public override void Refresh()
+        {
+            speakToolStripMenuItem.Checked = _settingsService.Speak;
+            informationPanelToolStripMenuItem.Checked = _settingsService.ShowInfoPanel;
+            base.Refresh();
         }
         #endregion
     }

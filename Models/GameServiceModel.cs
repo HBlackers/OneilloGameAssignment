@@ -5,7 +5,7 @@ namespace O_neilloGame.Models
     /// <summary>
     /// Stores an instance of a saved game
     /// </summary>
-    public class GameModel
+    public class GameServiceModel
     {
         #region Properties
         /// <summary>
@@ -22,12 +22,12 @@ namespace O_neilloGame.Models
         /// <summary>
         /// Used During JSON Deserialization
         /// </summary>
-        public GameModel(){ }
+        public GameServiceModel(){ }
         /// <summary>
         /// Used to transfer the current games backend properties into the model for serialization
         /// </summary>
         /// <param name="gameService"></param>
-        public GameModel(GameService gameService) 
+        public GameServiceModel(GameService gameService) 
         {
             _gameservice = gameService;
             GameName = _gameservice.GameName;

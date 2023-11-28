@@ -10,17 +10,21 @@ namespace O_neilloGame.Components
     public partial class ctrRestoreGame : UserControl
     {
         /// <summary>
-        /// All Games currently saved
+        /// All saved games and settings
         /// </summary>
-        private List<GameModel> _savedGameModels;
+        private ApplicationModel _applicationModel;
         /// <summary>
         /// Used to determine wether any games exist
         /// </summary>
         private bool _savedModelsExist = false;
+        private Form _mainForm;
         private readonly GameService _gameService;
-        public ctrRestoreGame(GameService gameService)
+        private readonly SettingsService _settingsService;
+        public ctrRestoreGame(GameService gameService, SettingsService settingsService, Form mainForm)
         {
             _gameService = gameService;
+            _settingsService = settingsService;
+            _mainForm = mainForm;
             InitializeComponent();
             OutputSavedGames();
         }
@@ -29,10 +33,10 @@ namespace O_neilloGame.Components
         /// </summary>
         private void OutputSavedGames()
         {
-            _savedGameModels = GameHelper.GetSavedGames();
-            if (_savedGameModels != null)
+            _applicationModel = GameHelper.GetSavedApplication();
+            if (_applicationModel != null)
             {
-                foreach (var Game in _savedGameModels)
+                foreach (var Game in _applicationModel.Games)
                 {
                     cmbSavedGames.Items.Add(Game.GameName);
                 }
@@ -54,8 +58,11 @@ namespace O_neilloGame.Components
         {
             if (_savedModelsExist)
             {
-                GameModel CurrentGame = GameHelper.GetGame(cmbSavedGames.SelectedItem.ToString(), _savedGameModels);
+                GameServiceModel CurrentGame = GameHelper.GetGame(cmbSavedGames.SelectedItem.ToString(), _applicationModel.Games);
                 _gameService.RestoreGame(CurrentGame);
+                _settingsService.RestoreSettings(_applicationModel.Settings);
+                _mainForm.Refresh();
+                
                 ParentForm.Dispose();
             }
         }

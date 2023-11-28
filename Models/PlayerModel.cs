@@ -33,10 +33,6 @@ namespace O_neilloGame.Models
         /// colour player is using can only be black or white
         /// </summary>
         public TokenTypes.TokenType PlayerColour;
-        /// <summary>
-        /// Determines wether speak setting is enabled
-        /// </summary>
-        public bool Speak;
         #endregion
         #region Constructors
         /// <summary>

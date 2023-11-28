@@ -32,6 +32,7 @@ namespace O_neilloGame.Components
         /// </summary>
         public int YCoord;
         private readonly GameService _gameService;
+        private readonly SettingsService _settingsService;
         #endregion
         #region Constructor
         /// <summary>
@@ -40,11 +41,12 @@ namespace O_neilloGame.Components
         /// <param name="player1">Required</param>
         /// <param name="player2"></param>
         /// <param name="gameService"></param>
-        public ctrToken(Player player1, Player player2, GameService gameService)
+        public ctrToken(Player player1, Player player2, GameService gameService, SettingsService settingsService)
         {
             Player1 = player1;
             Player2 = player2;
             _gameService = gameService;
+            _settingsService = settingsService;
             InitializeComponent();
         }
         #endregion
@@ -65,7 +67,7 @@ namespace O_neilloGame.Components
                 var CurrentPlayer = Player1.PlayerTurn ? Player1 : Player2;
                 var OppossitePlayer = Player1.PlayerTurn ? Player2 : Player1;
                 //change the colour of the tile clicked
-                GameService.ChangeTokenDisplayColour(CurrentPlayer, this);
+                GameService.ChangeTokenDisplayColour(CurrentPlayer,this);
                 //list of tokens that need to be changed
                 List<ctrToken> TokensToFlip = _gameService.FindFlippableTokens(this);
                 foreach (var Token in TokensToFlip)
@@ -73,6 +75,7 @@ namespace O_neilloGame.Components
                     GameService.ChangeTokenDisplayColour(CurrentPlayer, Token);
 
                 }
+                _settingsService.StateTokenPlaced(this);
                 //Update Players
                 CurrentPlayer.UpdatePlayer();
                 OppossitePlayer.UpdatePlayer();
@@ -94,12 +97,12 @@ namespace O_neilloGame.Components
                     {
                         CurrentPlayer.UpdatePlayer();
                         OppossitePlayer.UpdatePlayer();
-                        CurrentPlayer.StateTurn();
+                        _settingsService.StateTurn(CurrentPlayer);
                     }
                 }
                 else
                 {
-                    OppossitePlayer.StateTurn();
+                    _settingsService.StateTurn(OppossitePlayer);
                 }
             }
         }

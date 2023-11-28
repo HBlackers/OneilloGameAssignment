@@ -193,12 +193,12 @@
 
         #endregion
 
-        private ToolStrip Menu;
+        public ToolStrip Menu;
         private FlowLayoutPanel flpGameInfo;
         private TableLayoutPanel tlpGameBoard;
-        private ToolStripDropDownButton btnSettings;
-        private ToolStripMenuItem informationPanelToolStripMenuItem;
-        private ToolStripMenuItem speakToolStripMenuItem;
+        public ToolStripDropDownButton btnSettings;
+        public ToolStripMenuItem informationPanelToolStripMenuItem;
+        public ToolStripMenuItem speakToolStripMenuItem;
         private ToolStripDropDownButton btnGame;
         private ToolStripMenuItem newGameToolStripMenuItem;
         private ToolStripMenuItem saveGameToolStripMenuItem;

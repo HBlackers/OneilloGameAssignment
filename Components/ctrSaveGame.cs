@@ -11,13 +11,17 @@ namespace O_neilloGame.Components
     {
         #region Properties
         /// <summary>
-        /// All Games currently saved
+        /// All Games currently saved and saved settings 
         /// </summary>
-        private List<GameModel> _savedGameModels;
+        private ApplicationModel _applicationModel;
         /// <summary>
         /// current game the user wants to save
         /// </summary>
-        private GameModel _currentGame;
+        private GameServiceModel _currentGame;
+        /// <summary>
+        /// Settings the user has set to be saved
+        /// </summary>
+        private SettingsServiceModel _settingsModel;
         /// <summary>
         /// prompt or warning to the user
         /// </summary>
@@ -34,14 +38,22 @@ namespace O_neilloGame.Components
         /// Component of _prompt
         /// </summary>
         private MessageBoxButtons _buttons;
+        /// <summary>
+        /// Determines wether the application should save to Game_Data.json
+        /// </summary>
         private bool _saveValid = false;
+        /// <summary>
+        /// Determines wether there any existing saves in Game_Data.json
+        /// </summary>
         private bool _savedModelsExist = false;
         private readonly GameService _gameService;
+        private readonly SettingsService _settingsService;
         #endregion
         #region Constructor
-        public ctrSaveGame(GameService gameService)
+        public ctrSaveGame(GameService gameService, SettingsService settingsService)
         {
             _gameService = gameService;
+            _settingsService = settingsService;
             InitializeComponent();
             OutputSavedGames();
         }
@@ -52,10 +64,10 @@ namespace O_neilloGame.Components
         /// </summary>
         private void OutputSavedGames()
         {
-            _savedGameModels = GameHelper.GetSavedGames();
-            if (_savedGameModels != null)
+            _applicationModel = GameHelper.GetSavedApplication();
+            if (_applicationModel != null)
             {
-                foreach (var Game in _savedGameModels)
+                foreach (var Game in _applicationModel.Games)
                 {
                     cmbSavedGames.Items.Add(Game.GameName);
                 }
@@ -113,45 +125,57 @@ namespace O_neilloGame.Components
         {
             CheckSaveName();
             _gameService.CreateModels();
-            _currentGame = new GameModel(_gameService);
+            //creates models for game state and settings state
+            _currentGame = new GameServiceModel(_gameService);
+            _settingsModel = new SettingsServiceModel(_settingsService);
+            //if there any existing saves
             if (_savedModelsExist)
             {
-                bool IsDuplicate = GameHelper.CheckDuplicates(_currentGame, _savedGameModels);
+                //checks for duplicates
+                bool IsDuplicate = GameHelper.CheckDuplicates(_currentGame, _applicationModel.Games);
+                //if it is not a duplicate and the user has not selected an save to overwrite
                 if (!IsDuplicate && cmbSavedGames.SelectedItem == null)
                 {
-                    if (_savedGameModels.Count >= 5)
+                    //if the number of exisitng saves is 5 or over
+                    if (_applicationModel.Games.Count >= 5)
                     {
                         TooManySavedGamesExistWarning();
                     }
                     else
                     {
-                        _savedGameModels.Add(_currentGame);
+                        //adds new save
+                        _applicationModel.Games.Add(_currentGame);
                         _saveValid = true;
                     }
                 }
+                //if the user has selected a save to overwrite and it is not a duplicate
                 else if (!IsDuplicate && cmbSavedGames.SelectedItem != null)
                 {
                     _saveValid = true;
-                    GameHelper.OverwriteSave(cmbSavedGames.SelectedItem.ToString(), _currentGame, _savedGameModels);
+                    //replaces the save
+                    GameHelper.OverwriteSave(cmbSavedGames.SelectedItem.ToString(), _currentGame, _applicationModel.Games);
                 }
                 else
                 {
+                    //user has set the new save name to an existing save name
                     CreateOverwriteConfirmPrompt();
                     if (_prompt == DialogResult.Yes)
                     {
                         _saveValid = true;
-                        GameHelper.OverwriteSave(_currentGame, _savedGameModels);
+                        GameHelper.OverwriteSave(_currentGame, _applicationModel.Games);
                     }
                 }
             }
             else
             {
-                _savedGameModels = new List<GameModel> { _currentGame };
+                //creates a new list of game models containing the new game to save
+                _applicationModel = new ApplicationModel { Games = new List<GameServiceModel> { _currentGame } };
                 _saveValid = true;
             }
             if (_saveValid)
             {
-                GameHelper.SaveGame(_savedGameModels);
+                _applicationModel.Settings = _settingsModel;
+                GameHelper.SaveGame(_applicationModel);
                 GameSavedNotification();
                 ParentForm.Dispose();
             }

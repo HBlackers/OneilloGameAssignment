@@ -11,6 +11,7 @@ namespace O_neilloGame.Forms
     {
         #region Properties
         private readonly GameService _gameService;
+        private readonly SettingsService _settingsService;
         /// <summary>
         /// Instance of SaveForm
         /// </summary>
@@ -27,13 +28,19 @@ namespace O_neilloGame.Forms
         /// Determines the MiniForms Purpose e.g. what feature to load up
         /// </summary>
         private ModalFormType.Purpose _pupose;
+        /// <summary>
+        /// Parent form
+        /// </summary>
+        private Form _mainForm;
         #endregion
         #region Constructor
-        public MiniForm(GameService gameService, ModalFormType.Purpose purpose)
+        public MiniForm(GameService gameService,SettingsService settingsService,ModalFormType.Purpose purpose,Form mainForm)
         {
             _gameService = gameService;
+            _settingsService = settingsService;
             InitializeComponent();
             _pupose = purpose;
+            _mainForm = mainForm;
             LoadContent();
         }
         #endregion
@@ -63,7 +70,7 @@ namespace O_neilloGame.Forms
         /// </summary>
         private void InitiateSave()
         {
-            _saveGamePrompt = new ctrSaveGame(_gameService);
+            _saveGamePrompt = new ctrSaveGame(_gameService,_settingsService);
             flpContent.Controls.Add(_saveGamePrompt);
             Text = "Save Game";
         }
@@ -72,7 +79,7 @@ namespace O_neilloGame.Forms
         /// </summary>
         private void InitiateRestore()
         {
-            _restoreGamePrompt = new ctrRestoreGame(_gameService);
+            _restoreGamePrompt = new ctrRestoreGame(_gameService,_settingsService,_mainForm);
             flpContent.Controls.Add(_restoreGamePrompt);
             Text = "Restore Game";
         }

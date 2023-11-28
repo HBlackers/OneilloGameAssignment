@@ -9,15 +9,16 @@ namespace O_neilloGame.Common.Helpers
     public static class GameHelper
     {
         /// <summary>
-        /// Reads Game_Data.json and collects all saved data
+        /// Reads Game_Data.json and collects all saved games
         /// </summary>
         /// <returns>List of saved games or null if no data is found</returns>
-        public static List<GameModel>? GetSavedGames()
+        public static ApplicationModel? GetSavedApplication()
         {
             string Json = File.ReadAllText("Game_Data.json");
             try
             {
-                return JsonConvert.DeserializeObject<List<GameModel>>(Json);
+                //only returns the games not the settings as they are not needed
+                 return JsonConvert.DeserializeObject<ApplicationModel>(Json);
             }
             catch (JsonSerializationException)
             {
@@ -25,12 +26,12 @@ namespace O_neilloGame.Common.Helpers
             }
         }
         /// <summary>
-        /// Saves the game instance
+        /// Saves all games and the saved settings
         /// </summary>
-        /// <param name="games">List of games to be written to the file</param>
-        public static void SaveGame(List<GameModel> games)
+        /// <param name="applicationModel">List of games to be written to the file</param>
+        public static void SaveGame(ApplicationModel applicationModel)
         {
-            string Data = JsonConvert.SerializeObject(games);
+            string Data = JsonConvert.SerializeObject(applicationModel);
             string file = "Game_Data.json";
             File.WriteAllText(file, Data);
         }
@@ -40,7 +41,7 @@ namespace O_neilloGame.Common.Helpers
         /// <param name="currentGame">Current game to be saved</param>
         /// <param name="savedGames">List of all games that have already been saved</param>
         /// <returns>true/false depending on wether a duplicate exists</returns>
-        public static bool CheckDuplicates(GameModel currentGame, List<GameModel> savedGames)
+        public static bool CheckDuplicates(GameServiceModel currentGame, List<GameServiceModel> savedGames)
         {
             return savedGames.Any(x => x.GameName == currentGame.GameName);
         }
@@ -49,7 +50,7 @@ namespace O_neilloGame.Common.Helpers
         /// </summary>
         /// <param name="currentGame">Instance of the current game to be saved</param>
         /// <param name="savedGames">All of the games currently saved within Game_Data.json</param>
-        public static void OverwriteSave(GameModel currentGame, List<GameModel> savedGames)
+        public static void OverwriteSave(GameServiceModel currentGame, List<GameServiceModel> savedGames)
         {
             for (int i = 0; i < savedGames.Count; i++)
             {
@@ -66,7 +67,7 @@ namespace O_neilloGame.Common.Helpers
         /// <param name="selectedGameName">Name of the saved game selected by the user</param>
         /// <param name="currentGame">Instance of the current game to save</param>
         /// <param name="savedGames">All of the games currently saved within Game_Data.json</param>
-        public static void OverwriteSave(string selectedGameName, GameModel currentGame, List<GameModel> savedGames)
+        public static void OverwriteSave(string selectedGameName, GameServiceModel currentGame, List<GameServiceModel> savedGames)
         {
             for (int i = 0; i < savedGames.Count; i++)
             {
@@ -82,7 +83,7 @@ namespace O_neilloGame.Common.Helpers
         /// </summary>
         /// <param name="selectedGameName">Name of the game the user has selected</param>
         /// <param name="savedGames">List of saved games</param>
-        public static GameModel GetGame(string selectedGameName, List<GameModel> savedGames)
+        public static GameServiceModel GetGame(string selectedGameName, List<GameServiceModel> savedGames)
         {
             int Index;
             for (Index = 0; Index < savedGames.Count; Index++)
