@@ -58,9 +58,8 @@ namespace O_neilloGame.Components
         {
             if (_savedModelsExist)
             {
-                GameServiceModel CurrentGame = GameHelper.GetGame(cmbSavedGames.SelectedItem.ToString(), _applicationModel.Games);
-                _gameService.RestoreGame(CurrentGame);
-                _settingsService.RestoreSettings(_applicationModel.Settings);
+                GameServiceModel selectedGame = GameHelper.GetGame(cmbSavedGames.SelectedItem.ToString(), _applicationModel.Games);
+                _gameService.RestoreGame(selectedGame);
                 _mainForm.Refresh();
                 
                 ParentForm.Dispose();

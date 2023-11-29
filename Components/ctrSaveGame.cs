@@ -124,6 +124,7 @@ namespace O_neilloGame.Components
         private void btnSaveGame_Click(object sender, EventArgs e)
         {
             CheckSaveName();
+            //creates model of gameboard
             _gameService.CreateModels();
             //creates models for game state and settings state
             _currentGame = new GameServiceModel(_gameService);

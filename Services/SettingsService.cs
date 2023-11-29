@@ -40,8 +40,17 @@ namespace O_neilloGame.Services
         #endregion
         public void RestoreSettings(SettingsServiceModel settingsServiceModel) 
         {
-            Speak = settingsServiceModel.Speak;
-            ShowInfoPanel = settingsServiceModel.ShowInfoPanel;
+            //if no saved settings exist , sets the settings to their default
+            if (settingsServiceModel == null)
+            {
+                Speak = false;
+                ShowInfoPanel = true;
+            }
+            else 
+            {
+                Speak = settingsServiceModel.Speak;
+                ShowInfoPanel = settingsServiceModel.ShowInfoPanel;
+            }
         }
     }
 }

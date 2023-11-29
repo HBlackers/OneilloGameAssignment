@@ -1,6 +1,7 @@
 ﻿using O_neilloGame.Services;
 using O_neilloGame.Forms;
 using O_neilloGame.Common.Enums;
+using O_neilloGame.Common.Helpers;
 
 namespace O_NeilloGame
 {
@@ -17,7 +18,6 @@ namespace O_NeilloGame
             LoadGame();
         }
         #region ClickEvents
-
         #region Help
         /// <summary>
         /// Opens About Feature
@@ -66,6 +66,7 @@ namespace O_NeilloGame
         private void SaveGame_Click(object sender, EventArgs e)
         {
             CreateForm(ModalFormType.Purpose.SaveGame);
+            restoreGameToolStripMenuItem.Enabled = true;
         }
         /// <summary>
         /// Closes the game
@@ -78,6 +79,7 @@ namespace O_NeilloGame
             {
                 case DialogResult.Yes:
                     CreateForm(ModalFormType.Purpose.SaveGame);
+                    restoreGameToolStripMenuItem.Enabled = true;
                     WipeGame();
                     break;
                 case DialogResult.No:
@@ -96,6 +98,7 @@ namespace O_NeilloGame
             {
                 case DialogResult.Yes:
                     CreateForm(ModalFormType.Purpose.SaveGame);
+                    restoreGameToolStripMenuItem.Enabled = true;
                     WipeGame();
                     break;
                 case DialogResult.No:
@@ -130,10 +133,24 @@ namespace O_NeilloGame
         /// </summary>
         private void LoadGame()
         {
+            var applicationModel = GameHelper.GetSavedApplication();
+            if (applicationModel != null)
+            {
+                _settingsService.RestoreSettings(applicationModel.Settings);
+            }
+            else
+            {
+                _settingsService.RestoreSettings(null);
+                restoreGameToolStripMenuItem.Enabled = false;
+            }
             _gameService.GenerateBoard(tlpGameBoard);
             _gameService.GetLegalMoves(_gameService.Player1);
             flpGameInfo.Controls.Add(_gameService.Player1);
             flpGameInfo.Controls.Add(_gameService.Player2);
+            informationPanelToolStripMenuItem.Checked = _settingsService.ShowInfoPanel;
+            flpGameInfo.Visible = _settingsService.ShowInfoPanel;
+            speakToolStripMenuItem.Checked = _settingsService.Speak;
+            _settingsService.StateTurn(_gameService.Player1.PlayerTurn ? _gameService.Player1 : _gameService.Player2);
         }
         /// <summary>
         /// Wipes game and loads up a new game
@@ -153,14 +170,6 @@ namespace O_NeilloGame
         private DialogResult SaveGamePrompt()
         {
             return MessageBox.Show("Would you like to save the game", "Start New Game", MessageBoxButtons.YesNoCancel);
-        }
-        #endregion
-        #region refresh page
-        public override void Refresh()
-        {
-            speakToolStripMenuItem.Checked = _settingsService.Speak;
-            informationPanelToolStripMenuItem.Checked = _settingsService.ShowInfoPanel;
-            base.Refresh();
         }
         #endregion
     }
