@@ -73,6 +73,16 @@ namespace O_neilloGame.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap LegalMoveToken {
+            get {
+                object obj = ResourceManager.GetObject("LegalMoveToken", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap WhiteToken {
             get {
                 object obj = ResourceManager.GetObject("WhiteToken", resourceCulture);

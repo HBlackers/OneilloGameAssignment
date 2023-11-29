@@ -41,7 +41,7 @@ namespace O_NeilloGame.Components
             // 
             txtPlayerName.BackColor = Color.White;
             txtPlayerName.ForeColor = Color.DarkOrange;
-            txtPlayerName.Location = new Point(7, 34);
+            txtPlayerName.Location = new Point(4, 5);
             txtPlayerName.Margin = new Padding(4, 5, 4, 5);
             txtPlayerName.Name = "txtPlayerName";
             txtPlayerName.Size = new Size(260, 27);
@@ -53,7 +53,7 @@ namespace O_NeilloGame.Components
             lblPlayerTokenNum.AutoSize = true;
             lblPlayerTokenNum.Font = new Font("Microsoft Sans Serif", 20F, FontStyle.Regular, GraphicsUnit.Point);
             lblPlayerTokenNum.ForeColor = Color.White;
-            lblPlayerTokenNum.Location = new Point(20, 97);
+            lblPlayerTokenNum.Location = new Point(4, 37);
             lblPlayerTokenNum.Margin = new Padding(4, 0, 4, 0);
             lblPlayerTokenNum.Name = "lblPlayerTokenNum";
             lblPlayerTokenNum.Size = new Size(36, 39);
@@ -62,8 +62,8 @@ namespace O_NeilloGame.Components
             // 
             // imgPlayerTokenColour
             // 
-            imgPlayerTokenColour.BackColor = SystemColors.HighlightText;
-            imgPlayerTokenColour.Location = new Point(80, 69);
+            imgPlayerTokenColour.BackColor = Color.Transparent;
+            imgPlayerTokenColour.Location = new Point(57, 37);
             imgPlayerTokenColour.Margin = new Padding(4, 5, 4, 5);
             imgPlayerTokenColour.Name = "imgPlayerTokenColour";
             imgPlayerTokenColour.Size = new Size(80, 80);
@@ -76,7 +76,7 @@ namespace O_NeilloGame.Components
             lblPlayerTurn.AutoSize = true;
             lblPlayerTurn.Font = new Font("Microsoft Sans Serif", 14F, FontStyle.Bold, GraphicsUnit.Point);
             lblPlayerTurn.ForeColor = Color.Chartreuse;
-            lblPlayerTurn.Location = new Point(75, 163);
+            lblPlayerTurn.Location = new Point(70, 133);
             lblPlayerTurn.Margin = new Padding(4, 0, 4, 0);
             lblPlayerTurn.Name = "lblPlayerTurn";
             lblPlayerTurn.Size = new Size(129, 29);
@@ -94,7 +94,7 @@ namespace O_NeilloGame.Components
             Controls.Add(txtPlayerName);
             Margin = new Padding(4, 5, 4, 5);
             Name = "Player";
-            Size = new Size(276, 209);
+            Size = new Size(276, 170);
             ((System.ComponentModel.ISupportInitialize)imgPlayerTokenColour).EndInit();
             ResumeLayout(false);
             PerformLayout();

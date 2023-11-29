@@ -124,7 +124,7 @@ namespace O_NeilloGame
         /// </summary>
         public void CreateForm(ModalFormType.Purpose purpose)
         {
-            _miniForm = new MiniForm(_gameService,_settingsService,purpose,this);
+            _miniForm = new MiniForm(_gameService, _settingsService, purpose, this);
             _miniForm.ShowDialog();
         }
         #endregion
@@ -143,7 +143,7 @@ namespace O_NeilloGame
                 _settingsService.RestoreSettings(null);
                 restoreGameToolStripMenuItem.Enabled = false;
             }
-            _gameService.GenerateBoard(tlpGameBoard);
+            _gameService.GenerateBoard(this);
             _gameService.GetLegalMoves(_gameService.Player1);
             flpGameInfo.Controls.Add(_gameService.Player1);
             flpGameInfo.Controls.Add(_gameService.Player2);
@@ -157,9 +157,16 @@ namespace O_NeilloGame
         /// </summary>
         private void WipeGame()
         {
-            _gameService.ResetGame();
             flpGameInfo.Controls.Clear();
-            tlpGameBoard.Controls.Clear();
+            for (int i = 0; i < 8; i++)
+            {
+                for (int X = 0; X < 8; X++)
+                {
+                    Controls.Remove(_gameService.GameBoard[i, X]);
+
+                }
+            }
+            _gameService.ResetGame();
             LoadGame();
         }
         #region UserNotification

@@ -67,7 +67,7 @@ namespace O_neilloGame.Components
                 var CurrentPlayer = Player1.PlayerTurn ? Player1 : Player2;
                 var OppossitePlayer = Player1.PlayerTurn ? Player2 : Player1;
                 //change the colour of the tile clicked
-                GameService.ChangeTokenDisplayColour(CurrentPlayer,this);
+                GameService.ChangeTokenDisplayColour(CurrentPlayer, this);
                 //list of tokens that need to be changed
                 List<ctrToken> TokensToFlip = _gameService.FindFlippableTokens(this);
                 foreach (var Token in TokensToFlip)

@@ -36,11 +36,12 @@ namespace O_neilloGame.Components
             // imgTile
             // 
             imgTile.BackColor = Color.DarkGreen;
+            imgTile.BackgroundImageLayout = ImageLayout.Stretch;
             imgTile.BorderStyle = BorderStyle.FixedSingle;
             imgTile.Enabled = false;
             imgTile.Location = new Point(1, 1);
             imgTile.Name = "imgTile";
-            imgTile.Size = new Size(80, 80);
+            imgTile.Size = new Size(90, 90);
             imgTile.SizeMode = PictureBoxSizeMode.Zoom;
             imgTile.TabIndex = 0;
             imgTile.TabStop = false;
@@ -53,7 +54,8 @@ namespace O_neilloGame.Components
             AutoSize = true;
             Controls.Add(imgTile);
             Name = "ctrToken";
-            Size = new Size(84, 84);
+            Size = new Size(94, 94);
+            BackColor = Color.Black;
             Click += TileClicked;
             ((System.ComponentModel.ISupportInitialize)imgTile).EndInit();
             ResumeLayout(false);

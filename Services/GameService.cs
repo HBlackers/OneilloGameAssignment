@@ -2,7 +2,6 @@
 using O_neilloGame.Components;
 using O_neilloGame.Models;
 using O_neilloGame.Properties;
-using O_NeilloGame;
 using O_NeilloGame.Components;
 
 namespace O_neilloGame.Services
@@ -53,7 +52,7 @@ namespace O_neilloGame.Services
         /// Generates the GameBoard when application is loaded
         /// </summary>
         /// <param name="tlp"></param>
-        public void GenerateBoard(TableLayoutPanel tlp)
+        public void GenerateBoard(Form mainForm)
         {
             Player1 = new Player(1, "Player1", true, TokenTypes.TokenType.black, this);
             Player2 = new Player(2, "Player2", false, TokenTypes.TokenType.white, this);
@@ -66,7 +65,9 @@ namespace O_neilloGame.Services
                     GameBoard[row, column] = new ctrToken(Player1, Player2, this, _settingsService)
                     { Enabled = true, XCoord = row, YCoord = column };
                     //adds token to specifc column index and row index of tlp
-                    tlp.Controls.Add(GameBoard[row, column], row, column);
+                    mainForm.Controls.Add(GameBoard[row, column]);
+                    GameBoard[row, column].Location = new Point((90 * row) + 125, (90 * column) + 30);
+
                 }
             }
             //set four blocks in the middle to have token
@@ -130,7 +131,7 @@ namespace O_neilloGame.Services
                         if (isValidMove)
                         {
                             //make the cell a legal move and highlight it so the user can see it
-                            GameBoard[row, column].BackColor = Color.WhiteSmoke;
+                            GameBoard[row, column].imgTile.Image = Resources.LegalMoveToken;
                             GameBoard[row, column].Legal = true;
                         }
                     }
@@ -147,7 +148,10 @@ namespace O_neilloGame.Services
                 for (int column = 0; column < 8; column++)
                 {
                     GameBoard[row, column].Legal = false;
-                    GameBoard[row, column].BackColor = Color.Black;
+                    if (GameBoard[row,column].TokenColour == TokenTypes.TokenType.none)
+                    {
+                        GameBoard[row, column].imgTile.Image = null;
+                    }
                 }
             }
         }

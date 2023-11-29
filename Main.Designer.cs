@@ -41,7 +41,6 @@
             btnHelp = new ToolStripDropDownButton();
             helpToolStripMenuItem = new ToolStripMenuItem();
             flpGameInfo = new FlowLayoutPanel();
-            tlpGameBoard = new TableLayoutPanel();
             Menu.SuspendLayout();
             SuspendLayout();
             // 
@@ -133,44 +132,18 @@
             // helpToolStripMenuItem
             // 
             helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            helpToolStripMenuItem.Size = new Size(224, 26);
+            helpToolStripMenuItem.Size = new Size(133, 26);
             helpToolStripMenuItem.Text = "About";
             helpToolStripMenuItem.Click += About_Click;
             // 
             // flpGameInfo
             // 
             flpGameInfo.BackColor = Color.Chocolate;
-            flpGameInfo.Location = new Point(189, 739);
+            flpGameInfo.Location = new Point(188, 779);
             flpGameInfo.Margin = new Padding(4, 5, 4, 5);
             flpGameInfo.Name = "flpGameInfo";
-            flpGameInfo.Size = new Size(600, 200);
+            flpGameInfo.Size = new Size(600, 169);
             flpGameInfo.TabIndex = 2;
-            // 
-            // tlpGameBoard
-            // 
-            tlpGameBoard.BackColor = Color.Black;
-            tlpGameBoard.ColumnCount = 8;
-            tlpGameBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.Location = new Point(134, 30);
-            tlpGameBoard.Name = "tlpGameBoard";
-            tlpGameBoard.RowCount = 8;
-            tlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.RowStyles.Add(new RowStyle(SizeType.Percent, 12.5F));
-            tlpGameBoard.Size = new Size(700, 700);
-            tlpGameBoard.TabIndex = 3;
             // 
             // Main
             // 
@@ -179,7 +152,6 @@
             BackColor = Color.White;
             ClientSize = new Size(982, 953);
             Controls.Add(flpGameInfo);
-            Controls.Add(tlpGameBoard);
             Controls.Add(Menu);
             ForeColor = SystemColors.ControlLightLight;
             Margin = new Padding(4, 5, 4, 5);
@@ -195,7 +167,6 @@
 
         public ToolStrip Menu;
         private FlowLayoutPanel flpGameInfo;
-        private TableLayoutPanel tlpGameBoard;
         public ToolStripDropDownButton btnSettings;
         public ToolStripMenuItem informationPanelToolStripMenuItem;
         public ToolStripMenuItem speakToolStripMenuItem;

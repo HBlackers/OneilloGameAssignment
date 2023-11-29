@@ -109,7 +109,7 @@ namespace O_NeilloGame.Components
         /// Restores the player turn property and updates the display to the user
         /// </summary>
         /// <param name="turn">true/false, sets the players turn</param>
-        public void RestoreplayerTurn(bool turn) 
+        public void RestoreplayerTurn(bool turn)
         {
             //Update the player turn
             PlayerTurn = turn;
@@ -119,7 +119,7 @@ namespace O_NeilloGame.Components
         /// Restores the player's name and displays it to the user
         /// </summary>
         /// <param name="name"></param>
-        public void RestorePlayerName(string name) 
+        public void RestorePlayerName(string name)
         {
             txtPlayerName.Text = name;
             txtPlayerName.ReadOnly = true;
@@ -129,7 +129,7 @@ namespace O_NeilloGame.Components
         /// Restores tokens on board property for the user and updates the number displayed
         /// </summary>
         /// <param name="tokens"></param>
-        public void RestoreTokensOnBoard(int tokens) 
+        public void RestoreTokensOnBoard(int tokens)
         {
             TokensOnBoards = tokens;
             lblPlayerTokenNum.Text = tokens.ToString();
