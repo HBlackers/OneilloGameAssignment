@@ -163,7 +163,6 @@ namespace O_NeilloGame
                 for (int X = 0; X < 8; X++)
                 {
                     Controls.Remove(_gameService.GameBoard[i, X]);
-
                 }
             }
             _gameService.ResetGame();
