@@ -150,7 +150,7 @@ namespace O_neilloGame.Components
                     }
                 }
                 //if the user has selected a save to overwrite and it is not a duplicate
-                else if (!IsDuplicate && cmbSavedGames.SelectedItem != null)
+                else if (cmbSavedGames.SelectedItem != null)
                 {
                     _saveValid = true;
                     //replaces the save
