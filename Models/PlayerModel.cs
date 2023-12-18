@@ -46,7 +46,7 @@ namespace O_neilloGame.Models
         /// Used to Transfer backend properties of current instances of players
         /// </summary>
         /// <param name="player"></param>
-        public PlayerModel(Player player) 
+        public PlayerModel(ctrPlayer player) 
         {
             PlayerName = player.PlayerName;
             PlayerNum = player.PlayerNum;

@@ -17,8 +17,8 @@ namespace O_neilloGame.Components
         /// <summary>
         /// The two players
         /// </summary>
-        public Player Player1;
-        public Player Player2;
+        public ctrPlayer Player1;
+        public ctrPlayer Player2;
         /// <summary>
         /// Tiles on intialisation are all set to illegal , this gets changed based on the legal moves function
         /// </summary>
@@ -41,7 +41,7 @@ namespace O_neilloGame.Components
         /// <param name="player1">Required</param>
         /// <param name="player2"></param>
         /// <param name="gameService"></param>
-        public ctrToken(Player player1, Player player2, GameService gameService, SettingsService settingsService)
+        public ctrToken(ctrPlayer player1, ctrPlayer player2, GameService gameService, SettingsService settingsService)
         {
             Player1 = player1;
             Player2 = player2;

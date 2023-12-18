@@ -7,7 +7,7 @@ namespace O_NeilloGame.Components
     /// <summary>
     /// Represents the player in the game and displays players details in game
     /// </summary>
-    public partial class Player : UserControl
+    public partial class ctrPlayer : UserControl
     {
         #region Properties
         /// <summary>
@@ -37,7 +37,7 @@ namespace O_NeilloGame.Components
         private readonly GameService _gameService;
         #endregion
         #region Constructor
-        public Player(int playerNum, string playerName, bool playerTurn, TokenTypes.TokenType playerColour, GameService gameService)
+        public ctrPlayer(int playerNum, string playerName, bool playerTurn, TokenTypes.TokenType playerColour, GameService gameService)
         {
             PlayerNum = playerNum;
             PlayerTurn = playerTurn;

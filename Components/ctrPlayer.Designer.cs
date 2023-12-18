@@ -2,7 +2,7 @@
 
 namespace O_NeilloGame.Components
 {
-    partial class Player
+    partial class ctrPlayer
     {
         /// <summary> 
         /// Required designer variable.

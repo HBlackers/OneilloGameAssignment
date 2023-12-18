@@ -31,11 +31,11 @@ namespace O_neilloGame.Services
         /// <summary>
         /// Instance of players in the game
         /// </summary
-        public Player Player1;
+        public ctrPlayer Player1;
         /// <summary>
         /// Instance of players in the game
         /// </summary>
-        public Player Player2;
+        public ctrPlayer Player2;
         /// <summary>
         /// Model of GameBoard
         /// </summary>
@@ -54,8 +54,8 @@ namespace O_neilloGame.Services
         /// <param name="tlp"></param>
         public void GenerateBoard(Form mainForm)
         {
-            Player1 = new Player(1, "Player1", true, TokenTypes.TokenType.black, this);
-            Player2 = new Player(2, "Player2", false, TokenTypes.TokenType.white, this);
+            Player1 = new ctrPlayer(1, "Player1", true, TokenTypes.TokenType.black, this);
+            Player2 = new ctrPlayer(2, "Player2", false, TokenTypes.TokenType.white, this);
             //add tokens to backend board and front end
             for (int row = 0; row < 8; row++)
             {
@@ -82,7 +82,7 @@ namespace O_neilloGame.Services
         /// Iterates through the entire game board and calculates the legal moves for the current player
         /// </summary>
         /// <param name="player">Instance of player whos turn it is</param>
-        public void GetLegalMoves(Player player)
+        public void GetLegalMoves(ctrPlayer player)
         {
             ResetLegalMoves();
             //for every row and column in my gameboard
@@ -222,7 +222,7 @@ namespace O_neilloGame.Services
         /// </summary>
         /// <param name="Player">The current Player</param>
         /// <param name="Token">Specific token to change the colour/param>
-        public static void ChangeTokenDisplayColour(Player Player, ctrToken Token)
+        public static void ChangeTokenDisplayColour(ctrPlayer Player, ctrToken Token)
         {
             switch (Player.PlayerColour)
             {
@@ -263,7 +263,7 @@ namespace O_neilloGame.Services
         /// Checks GameBoard if there are still legal moves on the board for the current player whos turn it is
         /// </summary>
         /// <returns>false if a legal move found, true if none are found</returns>
-        public bool CheckMovesForCurrentPlayer(Player player)
+        public bool CheckMovesForCurrentPlayer(ctrPlayer player)
         {
             for (int row = 0; row < 8; row++)
             {
@@ -283,7 +283,7 @@ namespace O_neilloGame.Services
         /// </summary>
         /// <param name="player1"></param>
         /// <param name="player2"></param>
-        public void GetWinner(Player player1, Player player2)
+        public void GetWinner(ctrPlayer player1, ctrPlayer player2)
         {
             if (player1.TokensOnBoards > player2.TokensOnBoards)
             {
@@ -391,8 +391,8 @@ namespace O_neilloGame.Services
         {
             GameName = string.Empty;
             GameBoard = new ctrToken[8, 8];
-            Player1 = new Player(1, "Player1", true, TokenTypes.TokenType.black, this);
-            Player2 = new Player(2, "Player2", false, TokenTypes.TokenType.white, this);
+            Player1 = new ctrPlayer(1, "Player1", true, TokenTypes.TokenType.black, this);
+            Player2 = new ctrPlayer(2, "Player2", false, TokenTypes.TokenType.white, this);
         }
         #endregion
     }

@@ -19,7 +19,7 @@ namespace O_neilloGame.Services
         /// <summary>
         /// Speaks the user's turn
         /// </summary>
-        public void StateTurn(Player player)
+        public void StateTurn(ctrPlayer player)
         {
             if (Speak && player.PlayerTurn)
             { 
