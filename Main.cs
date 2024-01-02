@@ -2,6 +2,7 @@
 using O_neilloGame.Forms;
 using O_neilloGame.Common.Enums;
 using O_neilloGame.Common.Helpers;
+using O_neilloGame.Properties;
 
 namespace O_NeilloGame
 {
@@ -16,6 +17,7 @@ namespace O_NeilloGame
             _gameService = gameService;
             _settingsService = settingsService;
             LoadGame();
+            Icon = Resources.PageIcon;
         }
         #region ClickEvents
         #region Help

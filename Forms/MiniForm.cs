@@ -1,5 +1,6 @@
 ﻿using O_neilloGame.Common.Enums;
 using O_neilloGame.Components;
+using O_neilloGame.Properties;
 using O_neilloGame.Services;
 
 namespace O_neilloGame.Forms
@@ -36,12 +37,14 @@ namespace O_neilloGame.Forms
         #region Constructor
         public MiniForm(GameService gameService,SettingsService settingsService,ModalFormType.Purpose purpose,Form mainForm)
         {
+            
             _gameService = gameService;
             _settingsService = settingsService;
             InitializeComponent();
             _pupose = purpose;
             _mainForm = mainForm;
             LoadContent();
+            Icon = Resources.PageIcon;
         }
         #endregion
         #region IdentifyFormFeature
