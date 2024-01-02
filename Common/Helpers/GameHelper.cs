@@ -14,13 +14,17 @@ namespace O_neilloGame.Common.Helpers
         /// <returns>List of saved games or null if no data is found</returns>
         public static ApplicationModel? GetSavedApplication()
         {
-            string Json = File.ReadAllText("Game_Data.json");
             try
             {
+                string Json = File.ReadAllText("ApplicationModel.json");
                 //only returns the games not the settings as they are not needed
-                 return JsonConvert.DeserializeObject<ApplicationModel>(Json);
+                return JsonConvert.DeserializeObject<ApplicationModel>(Json);
             }
             catch (JsonSerializationException)
+            {
+                return null;
+            }
+            catch (FileNotFoundException)
             {
                 return null;
             }
@@ -32,7 +36,7 @@ namespace O_neilloGame.Common.Helpers
         public static void SaveGame(ApplicationModel applicationModel)
         {
             string Data = JsonConvert.SerializeObject(applicationModel);
-            string file = "Game_Data.json";
+            string file = "ApplicationModel.json";
             File.WriteAllText(file, Data);
         }
         /// <summary>
