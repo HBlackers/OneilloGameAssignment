@@ -16,7 +16,7 @@ namespace O_neilloGame.Common.Helpers
         {
             try
             {
-                string Json = File.ReadAllText("ApplicationModel.json");
+                string Json = File.ReadAllText("Game_Data.json");
                 //only returns the games not the settings as they are not needed
                 return JsonConvert.DeserializeObject<ApplicationModel>(Json);
             }
@@ -36,7 +36,7 @@ namespace O_neilloGame.Common.Helpers
         public static void SaveGame(ApplicationModel applicationModel)
         {
             string Data = JsonConvert.SerializeObject(applicationModel);
-            string file = "ApplicationModel.json";
+            string file = "Game_Data.json";
             File.WriteAllText(file, Data);
         }
         /// <summary>
